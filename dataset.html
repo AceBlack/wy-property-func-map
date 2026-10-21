@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=1400">
+<title>智慧物业 V2 · 演示数据集</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#F2F3F5;
+ color:#303133;font-size:14px;line-height:1.6}
+.wrap{max-width:1400px;margin:0 auto;padding:0 24px 80px}
+header{background:#fff;border-bottom:1px solid #EBEEF5;padding:26px 0 22px;margin-bottom:22px}
+header .inner{max-width:1400px;margin:0 auto;padding:0 24px}
+h1{font-size:24px;font-weight:500}.sub{color:#909399;font-size:13px;margin-top:6px}
+.stats{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.stat{background:#F5F7FA;border-radius:8px;padding:10px 16px;min-width:104px}
+.stat b{display:block;font-size:20px;font-weight:500;color:#409EFF;font-family:'SF Mono',Menlo,monospace}
+.stat span{font-size:12px;color:#909399}
+.layout{display:flex;gap:24px;align-items:flex-start}
+nav{position:sticky;top:16px;width:196px;flex:none;background:#fff;border-radius:8px;padding:10px;
+ box-shadow:0 1px 3px rgba(0,0,0,.06);max-height:calc(100vh - 40px);overflow:auto}
+nav a{display:block;padding:6px 10px;color:#606266;text-decoration:none;font-size:12.5px;border-radius:4px}
+nav a:hover{background:#F5F7FA;color:#409EFF}
+nav .g{font-size:11px;color:#C0C4CC;padding:10px 10px 4px}
+main{flex:1;min-width:0}
+section{background:#fff;border-radius:8px;padding:22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+h2{font-size:18px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+h2 .no{display:inline-flex;width:24px;height:24px;border-radius:6px;background:#409EFF;color:#fff;font-size:12px;
+ align-items:center;justify-content:center}
+h3{font-size:14px;font-weight:500;margin:18px 0 8px}
+p{color:#606266;font-size:13px;margin:8px 0}.mut{color:#909399;font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+th,td{border:1px solid #EBEEF5;padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#F5F7FA;color:#606266;font-weight:500;white-space:nowrap}
+td{color:#606266}tr:nth-child(even) td{background:#FAFAFA}
+.k{font-family:'SF Mono',Menlo,Consolas,monospace;color:#303133;font-size:12px}
+.num{font-family:'SF Mono',Menlo,Consolas,monospace}
+details{margin-top:8px}summary{cursor:pointer;font-size:12.5px;color:#409EFF;padding:4px 0;outline:none}
+pre{background:#F5F7FA;border:1px solid #EBEEF5;border-radius:6px;padding:10px 12px;overflow:auto;
+ font-family:'SF Mono',Menlo,Consolas,monospace;font-size:11.5px;line-height:1.65;max-height:340px}
+code{background:#F5F7FA;border-radius:3px;padding:1px 5px;font-family:'SF Mono',Menlo,monospace;font-size:12px;color:#E6A23C}
+.note{background:#FDF6EC;border:1px solid #FAE1B0;border-radius:6px;padding:10px 14px;font-size:13px;
+ color:#854F0B;margin:12px 0}.note b{font-weight:500}
+.note.ok{background:#F0F9EB;border-color:#C2E7B0;color:#3B6D11}
+.er{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.er .box{border:1px solid #DCDFE6;border-radius:8px;padding:10px;background:#FAFBFC}
+.er .box b{font-size:13px;font-weight:500;display:block;margin-bottom:4px}
+.er .box .n{font-family:'SF Mono',Menlo,monospace;font-size:11px;color:#409EFF}
+.er .box .r{font-size:11px;color:#909399;margin-top:4px;line-height:1.5}
+.pill{display:inline-block;background:#ECF5FF;color:#409EFF;border-radius:4px;padding:1px 7px;font-size:11.5px;margin:2px 3px 0 0}
+.pill.g{background:#F0F9EB;color:#67C23A}.pill.o{background:#FDF6EC;color:#E6A23C}.pill.r{background:#FEF0F0;color:#F56C6C}
+.card{border:1px solid #EBEEF5;border-radius:8px;padding:14px;margin-top:10px}
+.card h4{font-size:14px;font-weight:500;margin-bottom:2px}
+.gold{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+.gold .g{border:1px solid #DCDFE6;border-left:3px solid #409EFF;border-radius:8px;padding:12px}
+.gold .g.r{border-left-color:#F56C6C}.gold .g.o{border-left-color:#E6A23C}.gold .g.gr{border-left-color:#67C23A}
+.gold .g .nm{font-size:15px;font-weight:500;margin-bottom:2px}
+.gold .g .ds{font-size:12px;color:#909399;margin-bottom:8px}
+.gold .g .rw{font-size:12.5px;color:#606266;display:flex;gap:6px}
+.gold .g .rw b{flex:none;width:66px;color:#909399;font-weight:400}
+.steps{counter-reset:s;margin-top:10px}
+.step{position:relative;padding-left:34px;margin-bottom:14px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:22px;height:22px;
+ border-radius:50%;background:#409EFF;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center}
+.step b{font-size:13.5px;font-weight:500}.step p{margin:2px 0 0;font-size:12.5px}
+</style></head><body>
+<header><div class="inner"><h1>智慧物业 V2 · 演示数据集</h1>
+<div class="sub">跨页一致的原型数据 · 与《设计系统规范》《页面设计稿》配套使用 · 生成于 2026-10-21</div>
+<div class="stats">
+<div class="stat"><b>20</b><span>实体</span></div>
+<div class="stat"><b>12,423</b><span>数据条数</span></div>
+<div class="stat"><b>736</b><span>房屋</span></div>
+<div class="stat"><b>682</b><span>业主</span></div>
+<div class="stat"><b>4884</b><span>账单</span></div>
+<div class="stat"><b>640</b><span>车位</span></div>
+<div class="stat"><b>6.6</b><span>MB</span></div>
+</div></div></header>
+<div class="wrap"><div class="layout"><nav><div class="g">数据集</div><a href="#s1">1 概览与实体关系</a><a href="#s2">2 演示剧本</a><a href="#s3">3 字段字典</a><a href="#s4">4 数据口径</a><a href="#s5">5 使用方式</a><div class="g">实体</div><a href="#e-orgs">组织</a><a href="#e-communities">项目/小区</a><a href="#e-buildings">楼栋</a><a href="#e-units">单元</a><a href="#e-houses">房屋</a><a href="#e-owners">业主</a><a href="#e-members">家庭成员</a><a href="#e-tenants">租户</a><a href="#e-parkings">车位</a><a href="#e-vehicles">车辆</a><a href="#e-feeItems">收费项目</a><a href="#e-bills">账单</a><a href="#e-payments">缴费记录</a><a href="#e-workOrders">工单</a><a href="#e-devices">设备</a><a href="#e-alarms">告警</a><a href="#e-inspectPlans">巡检计划</a><a href="#e-inspectTasks">巡检任务</a><a href="#e-inspectTemplates">巡检表单模板</a><a href="#e-employees">员工</a></nav><main>
+<section id="s1"><h2><span class="no">1</span>概览与实体关系</h2>
+<p>这份数据用于原型演示与评审，不是生产数据。所有实体用显式 ID 关联，<b>跨页数据一致</b>——不会出现「资产页说欠费 3200、收银台说 5800」。</p>
+<div class="er"><div class="box"><b>项目 community</b><div class="n">communities · 3 条</div><div class="r">翡翠城 / 锦绣家园 / 星光天地（2 住宅 + 1 商业）</div></div><div class="box"><b>楼栋 building</b><div class="n">buildings · 16 条</div><div class="r">belongs to 项目</div></div><div class="box"><b>单元 unit</b><div class="n">units · 30 条</div><div class="r">belongs to 楼栋</div></div><div class="box"><b>房屋 house</b><div class="n">houses · 736 条</div><div class="r">全系统主实体，所有业务围绕它</div></div><div class="box"><b>业主 owner</b><div class="n">owners · 682 条</div><div class="r">一人可多房；house.ownerId 关联</div></div><div class="box"><b>车位 parking</b><div class="n">parkings · 640 条</div><div class="r">ownerId + plateNo 绑定</div></div><div class="box"><b>车辆 vehicle</b><div class="n">vehicles · 448 条</div><div class="r">进出场与车闸授权对象</div></div><div class="box"><b>账单 bill</b><div class="n">bills · 4884 条</div><div class="r">houseId / parkId + period + itemId</div></div><div class="box"><b>工单 workOrder</b><div class="n">workOrders · 150 条</div><div class="r">houseId 可空（公共区域）</div></div><div class="box"><b>设备 device</b><div class="n">devices · 80 条</div><div class="r">物联接入主体</div></div><div class="box"><b>巡检任务 inspectTask</b><div class="n">inspectTasks · 240 条</div><div class="r">planId + templateId</div></div><div class="box"><b>员工 employee</b><div class="n">employees · 120 条</div><div class="r">orgId + position + level</div></div></div>
+<div class="hr" style="height:1px;background:#EBEEF5;margin:16px 0"></div>
+<h3>实体清单</h3>
+<table><thead><tr><th>实体</th><th>中文</th><th>条数</th><th>主要字段（前 6）</th></tr></thead><tbody><tr><td class="k">orgs</td><td>组织</td><td class="num">9</td><td class="k">orgId, name, parentId, type, leader, sort</td></tr><tr><td class="k">communities</td><td>项目/小区</td><td class="num">3</td><td class="k">communityId, name, orgId, bizType, address, buildYear</td></tr><tr><td class="k">buildings</td><td>楼栋</td><td class="num">16</td><td class="k">buildingId, communityId, buildingNo, name, usage, unitCount</td></tr><tr><td class="k">units</td><td>单元</td><td class="num">30</td><td class="k">unitId, buildingId, communityId, unitNo, name, floorCount</td></tr><tr><td class="k">houses</td><td>房屋</td><td class="num">736</td><td class="k">houseId, communityId, buildingId, unitId, room, floor</td></tr><tr><td class="k">owners</td><td>业主</td><td class="num">682</td><td class="k">ownerId, name, phone, idCard, gender, birthday</td></tr><tr><td class="k">members</td><td>家庭成员</td><td class="num">169</td><td class="k">memberId, ownerId, name, relation, phone, idCard</td></tr><tr><td class="k">tenants</td><td>租户</td><td class="num">160</td><td class="k">tenantId, name, phone, idCard, houseId, ownerId</td></tr><tr><td class="k">parkings</td><td>车位</td><td class="num">640</td><td class="k">parkId, communityId, parkNo, zone, parkType, category</td></tr><tr><td class="k">vehicles</td><td>车辆</td><td class="num">448</td><td class="k">vehicleId, plateNo, ownerId, parkId, communityId, vehicleType</td></tr><tr><td class="k">feeItems</td><td>收费项目</td><td class="num">10</td><td class="k">itemId, name, category, calcType, price, unit</td></tr><tr><td class="k">bills</td><td>账单</td><td class="num">4884</td><td class="k">billId, period, status, paidAmount, payTime, payMethod</td></tr><tr><td class="k">payments</td><td>缴费记录</td><td class="num">3986</td><td class="k">payId, billId, houseId, ownerId, amount, method</td></tr><tr><td class="k">workOrders</td><td>工单</td><td class="num">150</td><td class="k">woId, woNo, communityId, houseId, houseName, ownerId</td></tr><tr><td class="k">devices</td><td>设备</td><td class="num">80</td><td class="k">deviceId, deviceCode, name, type, communityId, brand</td></tr><tr><td class="k">alarms</td><td>告警</td><td class="num">45</td><td class="k">alarmId, deviceId, deviceName, communityId, type, level</td></tr><tr><td class="k">inspectPlans</td><td>巡检计划</td><td class="num">12</td><td class="k">planId, name, post, cycle, templateId, communityId</td></tr><tr><td class="k">inspectTasks</td><td>巡检任务</td><td class="num">240</td><td class="k">taskId, planId, planName, post, communityId, executor</td></tr><tr><td class="k">inspectTemplates</td><td>巡检表单模板</td><td class="num">3</td><td class="k">templateId, name, post, version, fields</td></tr><tr><td class="k">employees</td><td>员工</td><td class="num">120</td><td class="k">empId, empNo, name, gender, phone, idCard</td></tr></tbody></table>
+<div class="note ok"><b>可复现：</b><code>seed_dataset.py</code> 使用固定随机种子 <code>20261021</code>，任何人重跑得到完全一致的数据。要改数据请改脚本再重跑，不要手改 JSON。</div>
+</section><section id="s2"><h2><span class="no">2</span>演示剧本</h2>
+<h3>四个固定演示对象（不走随机，保证每次演示一致）</h3>
+<div class="gold"><div class="g "><div class="nm">张建国　<span class="k" style="font-size:12px">OW00001</span></div><div class="ds">一人多房 + 车位 + 欠费 + 在途报修</div><div class="rw"><b>房产</b><span>翡翠城 1栋1单元0501（125.74㎡）；翡翠城 3栋1单元1102（108.92㎡）</span></div><div class="rw"><b>车位</b><span>B1-115 川B·SFV7D 到期 2026-10-26</span></div><div class="rw"><b>欠费</b><span class="num" style="color:#F56C6C">¥ 2,031.01</span></div><div class="rw"><b>最长逾期</b><span class="num">6 天</span></div><div class="rw"><b>手机</b><span class="num">13800138001</span></div></div><div class="g r"><div class="nm">李秀兰　<span class="k" style="font-size:12px">OW00002</span></div><div class="ds">欠费大户，逾期 182 天，走催缴流程</div><div class="rw"><b>房产</b><span>翡翠城 2栋1单元0302（118.91㎡）</span></div><div class="rw"><b>车位</b><span>B2-026 渝A·YCPPQ 到期 2026-09-19</span></div><div class="rw"><b>欠费</b><span class="num" style="color:#F56C6C">¥ 3,390.55</span></div><div class="rw"><b>最长逾期</b><span class="num">189 天</span></div><div class="rw"><b>手机</b><span class="num">13900139002</span></div></div><div class="g o"><div class="nm">王浩然　<span class="k" style="font-size:12px">OW00003</span></div><div class="ds">一人三房，用于演示合并收费</div><div class="rw"><b>房产</b><span>锦绣家园 1栋1单元0601（141.30㎡）；锦绣家园 2栋2单元0902（110.71㎡）；翡翠城 5栋1单元0701（122.39㎡）</span></div><div class="rw"><b>车位</b><span>B1-122 京N·D7WY3 到期 2027-02-18；B1-121 粤B·YK1Q6 到期 2027-07-08</span></div><div class="rw"><b>欠费</b><span class="num" style="color:#F56C6C">¥ 1,744.45</span></div><div class="rw"><b>最长逾期</b><span class="num">6 天</span></div><div class="rw"><b>手机</b><span class="num">13700137003</span></div></div><div class="g gr"><div class="nm">赵春梅　<span class="k" style="font-size:12px">OW00004</span></div><div class="ds">商业业主，自营餐饮，租约 60 天内到期需续约跟进</div><div class="rw"><b>房产</b><span>星光天地 1栋1单元0205（206.50㎡）</span></div><div class="rw"><b>车位</b><span>B1-003 沪C·REV4L 到期 2026-12-05</span></div><div class="rw"><b>欠费</b><span class="num" style="color:#F56C6C">¥ 2,501.43</span></div><div class="rw"><b>最长逾期</b><span class="num">6 天</span></div><div class="rw"><b>手机</b><span class="num">13600136004</span></div></div></div>
+<div class="hr" style="height:1px;background:#EBEEF5;margin:18px 0"></div>
+<h3>五个评审剧本 —— 原型必须能一屏走完</h3>
+<div class="steps"><div class="step"><b>业主来电说「主卫漏水」</b><p>客服搜手机号 13800138001 → 命中张建国 → 看到 2 套房 + 1 车位、欠费 ¥2,031、1 条在途工单 WO20260001（处理中）→ 点「新建工单」，房号与业主信息自动带入 → 选「入户维修 · 水管漏水」→ 系统给出预估费用区间</p></div><div class="step"><b>业主到前台交费</b><p>收银台搜「13800138001」→ 出业主卡片：2 套房 3 笔待缴 → 跨房产勾选合并结算 → 一次收款 ¥2,031.01，票据按房号分行 → 打印</p></div><div class="step"><b>业主要换绑车牌</b><p>业主 360 → 车位卡「川B·SFV7D 到期 2026-10-26」→ 点换绑 → 填新牌 → 校验占用 → 提交审批 → 审批通过下发车场 → 显示厂商回执</p></div><div class="step"><b>催缴逾期大户</b><p>欠费台账筛「逾期 > 180 天」→ 命中李秀兰（逾期 189 天，¥3,390）→ 生成催缴任务 → 短信 + 电话留痕 → 升级停服审批</p></div><div class="step"><b>巡检发现问题转工单</b><p>保洁日检 → 电梯轿厢环节「异常」→ 拍照 + 描述 → 一键转工单 → 工单来源标记「巡检」→ 进度回写任务卡片</p></div></div>
+<div class="note"><b>验收标准：</b>这五个剧本任何一条需要「切到别的菜单才能完成」，说明该页面没做完。例如剧本 2 如果需要退出收银台再去收费管理查账单，就是不合格。</div>
+</section><section id="s3"><h2><span class="no">3</span>字段字典</h2>
+<p class="mut">字段名为最终 API 契约候选，原型阶段先按此实现；后端确定后以接口文档为准。填充率基于前 200 条样本。</p>
+<div class="card" id="e-orgs"><h4>组织　<span class="k" style="font-size:12px;color:#909399">orgs · 9 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">orgId</td><td>所属组织</td><td class="k">str</td><td class="k" style="color:#909399">O-ROOT</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">嘉合物业服务集团</td><td class="num">100%</td></tr><tr><td class="k">parentId</td><td>上级组织</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">89%</td></tr><tr><td class="k">type</td><td>组织类型</td><td class="k">str</td><td class="k" style="color:#909399">集团</td><td class="num">100%</td></tr><tr><td class="k">leader</td><td>负责人</td><td class="k">str</td><td class="k" style="color:#909399">周建国</td><td class="num">100%</td></tr><tr><td class="k">sort</td><td>排序</td><td class="k">int</td><td class="k" style="color:#909399">1</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;orgId&quot;: &quot;O-ROOT&quot;,
+  &quot;name&quot;: &quot;嘉合物业服务集团&quot;,
+  &quot;parentId&quot;: &quot;&quot;,
+  &quot;type&quot;: &quot;集团&quot;,
+  &quot;leader&quot;: &quot;周建国&quot;,
+  &quot;sort&quot;: 1
+ },
+ {
+  &quot;orgId&quot;: &quot;O-HEAD&quot;,
+  &quot;name&quot;: &quot;总部职能中心&quot;,
+  &quot;parentId&quot;: &quot;O-ROOT&quot;,
+  &quot;type&quot;: &quot;部门&quot;,
+  &quot;leader&quot;: &quot;周建国&quot;,
+  &quot;sort&quot;: 2
+ }
+]</pre></details></div><div class="card" id="e-communities"><h4>项目/小区　<span class="k" style="font-size:12px;color:#909399">communities · 3 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">翡翠城</td><td class="num">100%</td></tr><tr><td class="k">orgId</td><td>所属组织</td><td class="k">str</td><td class="k" style="color:#909399">O-P01</td><td class="num">100%</td></tr><tr><td class="k">bizType</td><td>业态</td><td class="k">str</td><td class="k" style="color:#909399">住宅</td><td class="num">100%</td></tr><tr><td class="k">address</td><td>地址</td><td class="k">str</td><td class="k" style="color:#909399">成都市高新区天府大道南段 1288 号</td><td class="num">100%</td></tr><tr><td class="k">buildYear</td><td>建成年份</td><td class="k">int</td><td class="k" style="color:#909399">2015</td><td class="num">100%</td></tr><tr><td class="k">deliverDate</td><td>交付日期</td><td class="k">str</td><td class="k" style="color:#909399">2015-06-30</td><td class="num">100%</td></tr><tr><td class="k">landArea</td><td>占地面积</td><td class="k">int</td><td class="k" style="color:#909399">68000</td><td class="num">100%</td></tr><tr><td class="k">buildArea</td><td>建筑面积</td><td class="k">int</td><td class="k" style="color:#909399">186000</td><td class="num">100%</td></tr><tr><td class="k">greenRate</td><td>绿化率</td><td class="k">float</td><td class="k" style="color:#909399">35.2</td><td class="num">100%</td></tr><tr><td class="k">plotRatio</td><td>容积率</td><td class="k">float</td><td class="k" style="color:#909399">2.7</td><td class="num">100%</td></tr><tr><td class="k">manager</td><td>项目经理</td><td class="k">str</td><td class="k" style="color:#909399">张振华</td><td class="num">100%</td></tr><tr><td class="k">phone</td><td>物业电话</td><td class="k">str</td><td class="k" style="color:#909399">028-8866****</td><td class="num">100%</td></tr><tr><td class="k">houseCount</td><td>房屋数</td><td class="k">int</td><td class="k" style="color:#909399">352</td><td class="num">100%</td></tr><tr><td class="k">parkCount</td><td>车位数</td><td class="k">int</td><td class="k" style="color:#909399">280</td><td class="num">100%</td></tr><tr><td class="k">propertyFee</td><td>物业费标准</td><td class="k">float</td><td class="k" style="color:#909399">2.8</td><td class="num">100%</td></tr><tr><td class="k">feeUnit</td><td>计费单位</td><td class="k">str</td><td class="k" style="color:#909399">元/㎡·月</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">在管</td><td class="num">100%</td></tr><tr><td class="k">contractStart</td><td>合同开始</td><td class="k">str</td><td class="k" style="color:#909399">2021-01-01</td><td class="num">100%</td></tr><tr><td class="k">contractEnd</td><td>合同结束</td><td class="k">str</td><td class="k" style="color:#909399">2026-12-31</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;name&quot;: &quot;翡翠城&quot;,
+  &quot;orgId&quot;: &quot;O-P01&quot;,
+  &quot;bizType&quot;: &quot;住宅&quot;,
+  &quot;address&quot;: &quot;成都市高新区天府大道南段 1288 号&quot;,
+  &quot;buildYear&quot;: 2015,
+  &quot;deliverDate&quot;: &quot;2015-06-30&quot;,
+  &quot;landArea&quot;: 68000,
+  &quot;buildArea&quot;: 186000,
+  &quot;greenRate&quot;: 35.2,
+  &quot;plotRatio&quot;: 2.7,
+  &quot;manager&quot;: &quot;张振华&quot;,
+  &quot;phone&quot;: &quot;028-8866****&quot;,
+  &quot;houseCount&quot;: 352,
+  &quot;parkCount&quot;: 280,
+  &quot;propertyFee&quot;: 2.8,
+  &quot;feeUnit&quot;: &quot;元/㎡·月&quot;,
+  &quot;status&quot;: &quot;在管&quot;,
+  &quot;contractStart&quot;: &quot;2021-01-01&quot;,
+  &quot;contractEnd&quot;: &quot;2026-12-31&quot;
+ },
+ {
+  &quot;communityId&quot;: &quot;P02&quot;,
+  &quot;name&quot;: &quot;锦绣家园&quot;,
+  &quot;orgId&quot;: &quot;O-P02&quot;,
+  &quot;bizType&quot;: &quot;住宅&quot;,
+  &quot;address&quot;: &quot;成都市武侯区武侯大道 566 号&quot;,
+  &quot;buildYear&quot;: 2020,
+  &quot;deliverDate&quot;: &quot;2020-09-28&quot;,
+  &quot;landArea&quot;: 42000,
+  &quot;buildArea&quot;: 128000,
+  &quot;greenRate&quot;: 38.6,
+  &quot;plotRatio&quot;: 3.0,
+  &quot;manager&quot;: &quot;李春梅&quot;,
+  &quot;phone&quot;: &quot;028-8877****&quot;,
+  &quot;houseCount&quot;: 264,
+  &quot;parkCount&quot;: 210,
+  &quot;propertyFee&quot;: 3.2,
+  &quot;feeUnit&quot;: &quot;元/㎡·月&quot;,
+  &quot;status&quot;: &quot;在管&quot;,
+  &quot;contractStart&quot;: &quot;2021-09-01&quot;,
+  &quot;contractEnd&quot;: &quot;2026-08-31&quot;
+ }
+]</pre></details></div><div class="card" id="e-buildings"><h4>楼栋　<span class="k" style="font-size:12px;color:#909399">buildings · 16 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">buildingId</td><td>楼栋ID</td><td class="k">str</td><td class="k" style="color:#909399">B0101</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">buildingNo</td><td>楼栋号</td><td class="k">str</td><td class="k" style="color:#909399">01</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">1栋</td><td class="num">100%</td></tr><tr><td class="k">usage</td><td>用途</td><td class="k">str</td><td class="k" style="color:#909399">住宅</td><td class="num">100%</td></tr><tr><td class="k">unitCount</td><td>单元数</td><td class="k">int</td><td class="k" style="color:#909399">2</td><td class="num">100%</td></tr><tr><td class="k">floorCount</td><td>层数</td><td class="k">int</td><td class="k" style="color:#909399">11</td><td class="num">100%</td></tr><tr><td class="k">houseCount</td><td>房屋数</td><td class="k">int</td><td class="k" style="color:#909399">44</td><td class="num">100%</td></tr><tr><td class="k">structure</td><td>结构</td><td class="k">str</td><td class="k" style="color:#909399">框架</td><td class="num">100%</td></tr><tr><td class="k">hasElevator</td><td>有电梯</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr><tr><td class="k">deliverDate</td><td>交付日期</td><td class="k">str</td><td class="k" style="color:#909399">2015-06-30</td><td class="num">100%</td></tr><tr><td class="k">buildArea</td><td>建筑面积</td><td class="k">int</td><td class="k" style="color:#909399">4180</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;buildingId&quot;: &quot;B0101&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;buildingNo&quot;: &quot;01&quot;,
+  &quot;name&quot;: &quot;1栋&quot;,
+  &quot;usage&quot;: &quot;住宅&quot;,
+  &quot;unitCount&quot;: 2,
+  &quot;floorCount&quot;: 11,
+  &quot;houseCount&quot;: 44,
+  &quot;structure&quot;: &quot;框架&quot;,
+  &quot;hasElevator&quot;: true,
+  &quot;deliverDate&quot;: &quot;2015-06-30&quot;,
+  &quot;buildArea&quot;: 4180
+ },
+ {
+  &quot;buildingId&quot;: &quot;B0201&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;buildingNo&quot;: &quot;02&quot;,
+  &quot;name&quot;: &quot;2栋&quot;,
+  &quot;usage&quot;: &quot;住宅&quot;,
+  &quot;unitCount&quot;: 2,
+  &quot;floorCount&quot;: 11,
+  &quot;houseCount&quot;: 44,
+  &quot;structure&quot;: &quot;剪力墙&quot;,
+  &quot;hasElevator&quot;: false,
+  &quot;deliverDate&quot;: &quot;2015-06-30&quot;,
+  &quot;buildArea&quot;: 4180
+ }
+]</pre></details></div><div class="card" id="e-units"><h4>单元　<span class="k" style="font-size:12px;color:#909399">units · 30 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">unitId</td><td>单元ID</td><td class="k">str</td><td class="k" style="color:#909399">U01101</td><td class="num">100%</td></tr><tr><td class="k">buildingId</td><td>楼栋ID</td><td class="k">str</td><td class="k" style="color:#909399">B0101</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">unitNo</td><td>单元号</td><td class="k">str</td><td class="k" style="color:#909399">1</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">1单元</td><td class="num">100%</td></tr><tr><td class="k">floorCount</td><td>层数</td><td class="k">int</td><td class="k" style="color:#909399">11</td><td class="num">100%</td></tr><tr><td class="k">housePerFloor</td><td>每层户数</td><td class="k">int</td><td class="k" style="color:#909399">2</td><td class="num">100%</td></tr><tr><td class="k">elevatorCount</td><td>电梯数</td><td class="k">int</td><td class="k" style="color:#909399">1</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;unitId&quot;: &quot;U01101&quot;,
+  &quot;buildingId&quot;: &quot;B0101&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;unitNo&quot;: &quot;1&quot;,
+  &quot;name&quot;: &quot;1单元&quot;,
+  &quot;floorCount&quot;: 11,
+  &quot;housePerFloor&quot;: 2,
+  &quot;elevatorCount&quot;: 1
+ },
+ {
+  &quot;unitId&quot;: &quot;U01201&quot;,
+  &quot;buildingId&quot;: &quot;B0101&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;unitNo&quot;: &quot;2&quot;,
+  &quot;name&quot;: &quot;2单元&quot;,
+  &quot;floorCount&quot;: 11,
+  &quot;housePerFloor&quot;: 2,
+  &quot;elevatorCount&quot;: 1
+ }
+]</pre></details></div><div class="card" id="e-houses"><h4>房屋　<span class="k" style="font-size:12px;color:#909399">houses · 736 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">houseId</td><td>房屋ID</td><td class="k">str</td><td class="k" style="color:#909399">H010110101</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">buildingId</td><td>楼栋ID</td><td class="k">str</td><td class="k" style="color:#909399">B0101</td><td class="num">100%</td></tr><tr><td class="k">unitId</td><td>单元ID</td><td class="k">str</td><td class="k" style="color:#909399">U01101</td><td class="num">100%</td></tr><tr><td class="k">room</td><td>房号</td><td class="k">str</td><td class="k" style="color:#909399">0101</td><td class="num">100%</td></tr><tr><td class="k">floor</td><td>楼层</td><td class="k">int</td><td class="k" style="color:#909399">1</td><td class="num">100%</td></tr><tr><td class="k">seq</td><td>同层序号</td><td class="k">int</td><td class="k" style="color:#909399">1</td><td class="num">100%</td></tr><tr><td class="k">fullName</td><td>完整名称</td><td class="k">str</td><td class="k" style="color:#909399">翡翠城 1栋1单元0101</td><td class="num">100%</td></tr><tr><td class="k">shortName</td><td>短编码</td><td class="k">str</td><td class="k" style="color:#909399">P01-011-0101</td><td class="num">100%</td></tr><tr><td class="k">usage</td><td>用途</td><td class="k">str</td><td class="k" style="color:#909399">住宅</td><td class="num">100%</td></tr><tr><td class="k">houseType</td><td>户型</td><td class="k">str</td><td class="k" style="color:#909399">两室一厅</td><td class="num">100%</td></tr><tr><td class="k">area</td><td>建筑面积</td><td class="k">float</td><td class="k" style="color:#909399">115.14</td><td class="num">100%</td></tr><tr><td class="k">innerArea</td><td>套内面积</td><td class="k">float</td><td class="k" style="color:#909399">94.41</td><td class="num">100%</td></tr><tr><td class="k">orientation</td><td>朝向</td><td class="k">str</td><td class="k" style="color:#909399">朝东</td><td class="num">100%</td></tr><tr><td class="k">decoration</td><td>装修</td><td class="k">str</td><td class="k" style="color:#909399">简装修</td><td class="num">100%</td></tr><tr><td class="k">deliverStatus</td><td>交付状态</td><td class="k">str</td><td class="k" style="color:#909399">已交付</td><td class="num">100%</td></tr><tr><td class="k">useStatus</td><td>使用状态</td><td class="k">str</td><td class="k" style="color:#909399">自住</td><td class="num">100%</td></tr><tr><td class="k">propertyStatus</td><td>产权状态</td><td class="k">str</td><td class="k" style="color:#909399">已办证</td><td class="num">100%</td></tr><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00005</td><td class="num">100%</td></tr><tr><td class="k">tenantId</td><td>租户ID</td><td class="k">NoneType</td><td class="k" style="color:#909399">None</td><td class="num">22%</td></tr><tr><td class="k">checkinDate</td><td>入住日期</td><td class="k">str</td><td class="k" style="color:#909399">2016-02-07</td><td class="num">90%</td></tr><tr><td class="k">certNo</td><td>产权证号</td><td class="k">str</td><td class="k" style="color:#909399">成房权证监证字第3024640号</td><td class="num">76%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;houseId&quot;: &quot;H010110101&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;buildingId&quot;: &quot;B0101&quot;,
+  &quot;unitId&quot;: &quot;U01101&quot;,
+  &quot;room&quot;: &quot;0101&quot;,
+  &quot;floor&quot;: 1,
+  &quot;seq&quot;: 1,
+  &quot;fullName&quot;: &quot;翡翠城 1栋1单元0101&quot;,
+  &quot;shortName&quot;: &quot;P01-011-0101&quot;,
+  &quot;usage&quot;: &quot;住宅&quot;,
+  &quot;houseType&quot;: &quot;两室一厅&quot;,
+  &quot;area&quot;: 115.14,
+  &quot;innerArea&quot;: 94.41,
+  &quot;orientation&quot;: &quot;朝东&quot;,
+  &quot;decoration&quot;: &quot;简装修&quot;,
+  &quot;deliverStatus&quot;: &quot;已交付&quot;,
+  &quot;useStatus&quot;: &quot;自住&quot;,
+  &quot;propertyStatus&quot;: &quot;已办证&quot;,
+  &quot;ownerId&quot;: &quot;OW00005&quot;,
+  &quot;tenantId&quot;: null,
+  &quot;checkinDate&quot;: &quot;2016-02-07&quot;,
+  &quot;certNo&quot;: &quot;成房权证监证字第3024640号&quot;
+ },
+ {
+  &quot;houseId&quot;: &quot;H010110102&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;buildingId&quot;: &quot;B0101&quot;,
+  &quot;unitId&quot;: &quot;U01101&quot;,
+  &quot;room&quot;: &quot;0102&quot;,
+  &quot;floor&quot;: 1,
+  &quot;seq&quot;: 2,
+  &quot;fullName&quot;: &quot;翡翠城 1栋1单元0102&quot;,
+  &quot;shortName&quot;: &quot;P01-011-0102&quot;,
+  &quot;usage&quot;: &quot;住宅&quot;,
+  &quot;houseType&quot;: &quot;三室两厅&quot;,
+  &quot;area&quot;: 98.1,
+  &quot;innerArea&quot;: 80.44,
+  &quot;orientation&quot;: &quot;朝东&quot;,
+  &quot;decoration&quot;: &quot;简装修&quot;,
+  &quot;deliverStatus&quot;: &quot;已交付&quot;,
+  &quot;useStatus&quot;: &quot;装修中&quot;,
+  &quot;propertyStatus&quot;: &quot;抵押中&quot;,
+  &quot;ownerId&quot;: &quot;OW00006&quot;,
+  &quot;tenantId&quot;: null,
+  &quot;checkinDate&quot;: &quot;2016-01-20&quot;,
+  &quot;certNo&quot;: &quot;&quot;
+ }
+]</pre></details></div><div class="card" id="e-owners"><h4>业主　<span class="k" style="font-size:12px;color:#909399">owners · 682 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00001</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>姓名</td><td class="k">str</td><td class="k" style="color:#909399">张建国</td><td class="num">100%</td></tr><tr><td class="k">phone</td><td>手机号</td><td class="k">str</td><td class="k" style="color:#909399">13800138001</td><td class="num">100%</td></tr><tr><td class="k">idCard</td><td>身份证</td><td class="k">str</td><td class="k" style="color:#909399">510172032024625880</td><td class="num">100%</td></tr><tr><td class="k">gender</td><td>性别</td><td class="k">str</td><td class="k" style="color:#909399">女</td><td class="num">100%</td></tr><tr><td class="k">birthday</td><td>生日</td><td class="k">str</td><td class="k" style="color:#909399">1972-01-17</td><td class="num">100%</td></tr><tr><td class="k">ownerType</td><td>业主类型</td><td class="k">str</td><td class="k" style="color:#909399">业主</td><td class="num">100%</td></tr><tr><td class="k">certified</td><td>已认证</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr><tr><td class="k">faceRegistered</td><td>已录人脸</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr><tr><td class="k">appRegistered</td><td>已注册App</td><td class="k">bool</td><td class="k" style="color:#909399">False</td><td class="num">100%</td></tr><tr><td class="k">wechatBound</td><td>已绑微信</td><td class="k">bool</td><td class="k" style="color:#909399">False</td><td class="num">100%</td></tr><tr><td class="k">email</td><td>邮箱</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">0%</td></tr><tr><td class="k">emergencyContact</td><td>紧急联系人</td><td class="k">str</td><td class="k" style="color:#909399">曹淼然</td><td class="num">100%</td></tr><tr><td class="k">emergencyPhone</td><td>紧急联系电话</td><td class="k">str</td><td class="k" style="color:#909399">15320057139</td><td class="num">100%</td></tr><tr><td class="k">houseIds</td><td>名下房屋</td><td class="k">list</td><td class="k" style="color:#909399">[&quot;H010110501&quot;, &quot;H010311102&quot;]</td><td class="num">100%</td></tr><tr><td class="k">parkIds</td><td>名下车位</td><td class="k">list</td><td class="k" style="color:#909399">[&quot;PK00115&quot;]</td><td class="num">62%</td></tr><tr><td class="k">tags</td><td>标签</td><td class="k">list</td><td class="k" style="color:#909399">[]</td><td class="num">24%</td></tr><tr><td class="k">creditLevel</td><td>信用等级</td><td class="k">str</td><td class="k" style="color:#909399">A</td><td class="num">100%</td></tr><tr><td class="k">registerDate</td><td>建档日期</td><td class="k">str</td><td class="k" style="color:#909399">2024-05-10</td><td class="num">100%</td></tr><tr><td class="k">remark</td><td>备注</td><td class="k">str</td><td class="k" style="color:#909399">一人多房 + 车位 + 欠费 + 在途报修</td><td class="num">2%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;ownerId&quot;: &quot;OW00001&quot;,
+  &quot;name&quot;: &quot;张建国&quot;,
+  &quot;phone&quot;: &quot;13800138001&quot;,
+  &quot;idCard&quot;: &quot;510172032024625880&quot;,
+  &quot;gender&quot;: &quot;女&quot;,
+  &quot;birthday&quot;: &quot;1972-01-17&quot;,
+  &quot;ownerType&quot;: &quot;业主&quot;,
+  &quot;certified&quot;: true,
+  &quot;faceRegistered&quot;: true,
+  &quot;appRegistered&quot;: false,
+  &quot;wechatBound&quot;: false,
+  &quot;email&quot;: &quot;&quot;,
+  &quot;emergencyContact&quot;: &quot;曹淼然&quot;,
+  &quot;emergencyPhone&quot;: &quot;15320057139&quot;,
+  &quot;houseIds&quot;: [
+   &quot;H010110501&quot;,
+   &quot;H010311102&quot;
+  ],
+  &quot;parkIds&quot;: [
+   &quot;PK00115&quot;
+  ],
+  &quot;tags&quot;: [],
+  &quot;creditLevel&quot;: &quot;A&quot;,
+  &quot;registerDate&quot;: &quot;2024-05-10&quot;,
+  &quot;remark&quot;: &quot;一人多房 + 车位 + 欠费 + 在途报修&quot;
+ },
+ {
+  &quot;ownerId&quot;: &quot;OW00002&quot;,
+  &quot;name&quot;: &quot;李秀兰&quot;,
+  &quot;phone&quot;: &quot;13900139002&quot;,
+  &quot;idCard&quot;: &quot;510184011285384392&quot;,
+  &quot;gender&quot;: &quot;男&quot;,
+  &quot;birthday&quot;: &quot;1992-04-25&quot;,
+  &quot;ownerType&quot;: &quot;业主&quot;,
+  &quot;certified&quot;: true,
+  &quot;faceRegistered&quot;: true,
+  &quot;appRegistered&quot;: false,
+  &quot;wechatBound&quot;: false,
+  &quot;email&quot;: &quot;&quot;,
+  &quot;emergencyContact&quot;: &quot;蒋雨欣&quot;,
+  &quot;emergencyPhone&quot;: &quot;19350658434&quot;,
+  &quot;houseIds&quot;: [
+   &quot;H010210302&quot;
+  ],
+  &quot;parkIds&quot;: [
+   &quot;PK00156&quot;
+  ],
+  &quot;tags&quot;: [
+   &quot;意见领袖&quot;
+  ],
+  &quot;creditLevel&quot;: &quot;A&quot;,
+  &quot;registerDate&quot;: &quot;2025-12-24&quot;,
+  &quot;remark&quot;: &quot;欠费大户，逾期 182 天，走催缴流程&quot;
+ }
+]</pre></details></div><div class="card" id="e-members"><h4>家庭成员　<span class="k" style="font-size:12px;color:#909399">members · 169 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">memberId</td><td>成员ID</td><td class="k">str</td><td class="k" style="color:#909399">MB00001</td><td class="num">100%</td></tr><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00001</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">陈静</td><td class="num">100%</td></tr><tr><td class="k">relation</td><td>关系</td><td class="k">str</td><td class="k" style="color:#909399">配偶</td><td class="num">100%</td></tr><tr><td class="k">phone</td><td>电话</td><td class="k">str</td><td class="k" style="color:#909399">17619030789</td><td class="num">100%</td></tr><tr><td class="k">idCard</td><td>身份证</td><td class="k">str</td><td class="k" style="color:#909399">510194010361628168</td><td class="num">100%</td></tr><tr><td class="k">certified</td><td>已认证</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr><tr><td class="k">faceRegistered</td><td>已录人脸</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr><tr><td class="k">isOwnerAppUser</td><td>独立App用户</td><td class="k">bool</td><td class="k" style="color:#909399">False</td><td class="num">100%</td></tr><tr><td class="k">remark</td><td>备注</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">0%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;memberId&quot;: &quot;MB00001&quot;,
+  &quot;ownerId&quot;: &quot;OW00001&quot;,
+  &quot;name&quot;: &quot;陈静&quot;,
+  &quot;relation&quot;: &quot;配偶&quot;,
+  &quot;phone&quot;: &quot;17619030789&quot;,
+  &quot;idCard&quot;: &quot;510194010361628168&quot;,
+  &quot;certified&quot;: true,
+  &quot;faceRegistered&quot;: true,
+  &quot;isOwnerAppUser&quot;: false,
+  &quot;remark&quot;: &quot;&quot;
+ },
+ {
+  &quot;memberId&quot;: &quot;MB00002&quot;,
+  &quot;ownerId&quot;: &quot;OW00001&quot;,
+  &quot;name&quot;: &quot;王小雪&quot;,
+  &quot;relation&quot;: &quot;子女&quot;,
+  &quot;phone&quot;: &quot;17521030244&quot;,
+  &quot;idCard&quot;: &quot;510181051621669049&quot;,
+  &quot;certified&quot;: false,
+  &quot;faceRegistered&quot;: false,
+  &quot;isOwnerAppUser&quot;: true,
+  &quot;remark&quot;: &quot;&quot;
+ }
+]</pre></details></div><div class="card" id="e-tenants"><h4>租户　<span class="k" style="font-size:12px;color:#909399">tenants · 160 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">tenantId</td><td>租户ID</td><td class="k">str</td><td class="k" style="color:#909399">TN00001</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">赵娟</td><td class="num">100%</td></tr><tr><td class="k">phone</td><td>电话</td><td class="k">str</td><td class="k" style="color:#909399">17218894520</td><td class="num">100%</td></tr><tr><td class="k">idCard</td><td>身份证</td><td class="k">str</td><td class="k" style="color:#909399">510161020983963501</td><td class="num">100%</td></tr><tr><td class="k">houseId</td><td>房屋ID</td><td class="k">str</td><td class="k" style="color:#909399">H010111001</td><td class="num">100%</td></tr><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00022</td><td class="num">100%</td></tr><tr><td class="k">leaseStart</td><td>租期开始</td><td class="k">str</td><td class="k" style="color:#909399">2026-07-02</td><td class="num">100%</td></tr><tr><td class="k">leaseEnd</td><td>租期结束</td><td class="k">str</td><td class="k" style="color:#909399">2028-06-08</td><td class="num">100%</td></tr><tr><td class="k">rent</td><td>月租金</td><td class="k">float</td><td class="k" style="color:#909399">4236.86</td><td class="num">100%</td></tr><tr><td class="k">certified</td><td>已认证</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr><tr><td class="k">faceRegistered</td><td>已录人脸</td><td class="k">bool</td><td class="k" style="color:#909399">False</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;tenantId&quot;: &quot;TN00001&quot;,
+  &quot;name&quot;: &quot;赵娟&quot;,
+  &quot;phone&quot;: &quot;17218894520&quot;,
+  &quot;idCard&quot;: &quot;510161020983963501&quot;,
+  &quot;houseId&quot;: &quot;H010111001&quot;,
+  &quot;ownerId&quot;: &quot;OW00022&quot;,
+  &quot;leaseStart&quot;: &quot;2026-07-02&quot;,
+  &quot;leaseEnd&quot;: &quot;2028-06-08&quot;,
+  &quot;rent&quot;: 4236.86,
+  &quot;certified&quot;: true,
+  &quot;faceRegistered&quot;: false
+ },
+ {
+  &quot;tenantId&quot;: &quot;TN00002&quot;,
+  &quot;name&quot;: &quot;钟瑞&quot;,
+  &quot;phone&quot;: &quot;13012931145&quot;,
+  &quot;idCard&quot;: &quot;510163080734178874&quot;,
+  &quot;houseId&quot;: &quot;H010111002&quot;,
+  &quot;ownerId&quot;: &quot;OW00023&quot;,
+  &quot;leaseStart&quot;: &quot;2024-12-06&quot;,
+  &quot;leaseEnd&quot;: &quot;2028-05-28&quot;,
+  &quot;rent&quot;: 4776.7,
+  &quot;certified&quot;: true,
+  &quot;faceRegistered&quot;: true
+ }
+]</pre></details></div><div class="card" id="e-parkings"><h4>车位　<span class="k" style="font-size:12px;color:#909399">parkings · 640 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">parkId</td><td>车位ID</td><td class="k">str</td><td class="k" style="color:#909399">PK00001</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">parkNo</td><td>车位编号</td><td class="k">str</td><td class="k" style="color:#909399">B1-001</td><td class="num">100%</td></tr><tr><td class="k">zone</td><td>区域</td><td class="k">str</td><td class="k" style="color:#909399">B1</td><td class="num">100%</td></tr><tr><td class="k">parkType</td><td>地上/地下</td><td class="k">str</td><td class="k" style="color:#909399">地下</td><td class="num">100%</td></tr><tr><td class="k">category</td><td>车位类别</td><td class="k">str</td><td class="k" style="color:#909399">充电车位</td><td class="num">100%</td></tr><tr><td class="k">area</td><td>建筑面积</td><td class="k">float</td><td class="k" style="color:#909399">13.59</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">已租</td><td class="num">100%</td></tr><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00090</td><td class="num">70%</td></tr><tr><td class="k">plateNo</td><td>车牌</td><td class="k">str</td><td class="k" style="color:#909399">浙B·JK3YA</td><td class="num">70%</td></tr><tr><td class="k">bindStatus</td><td>绑定状态</td><td class="k">str</td><td class="k" style="color:#909399">已绑定</td><td class="num">100%</td></tr><tr><td class="k">feeStandard</td><td>管理费标准</td><td class="k">int</td><td class="k" style="color:#909399">120</td><td class="num">100%</td></tr><tr><td class="k">expireDate</td><td>到期日</td><td class="k">str</td><td class="k" style="color:#909399">2027-02-15</td><td class="num">70%</td></tr><tr><td class="k">chargePile</td><td>充电桩</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr><tr><td class="k">remark</td><td>备注</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">0%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;parkId&quot;: &quot;PK00001&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;parkNo&quot;: &quot;B1-001&quot;,
+  &quot;zone&quot;: &quot;B1&quot;,
+  &quot;parkType&quot;: &quot;地下&quot;,
+  &quot;category&quot;: &quot;充电车位&quot;,
+  &quot;area&quot;: 13.59,
+  &quot;status&quot;: &quot;已租&quot;,
+  &quot;ownerId&quot;: &quot;OW00090&quot;,
+  &quot;plateNo&quot;: &quot;浙B·JK3YA&quot;,
+  &quot;bindStatus&quot;: &quot;已绑定&quot;,
+  &quot;feeStandard&quot;: 120,
+  &quot;expireDate&quot;: &quot;2027-02-15&quot;,
+  &quot;chargePile&quot;: true,
+  &quot;remark&quot;: &quot;&quot;
+ },
+ {
+  &quot;parkId&quot;: &quot;PK00002&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;parkNo&quot;: &quot;B1-002&quot;,
+  &quot;zone&quot;: &quot;B1&quot;,
+  &quot;parkType&quot;: &quot;地下&quot;,
+  &quot;category&quot;: &quot;租赁车位&quot;,
+  &quot;area&quot;: 16.47,
+  &quot;status&quot;: &quot;已售&quot;,
+  &quot;ownerId&quot;: &quot;OW00078&quot;,
+  &quot;plateNo&quot;: &quot;川B·BA07D&quot;,
+  &quot;bindStatus&quot;: &quot;已绑定&quot;,
+  &quot;feeStandard&quot;: 120,
+  &quot;expireDate&quot;: &quot;2027-10-02&quot;,
+  &quot;chargePile&quot;: false,
+  &quot;remark&quot;: &quot;&quot;
+ }
+]</pre></details></div><div class="card" id="e-vehicles"><h4>车辆　<span class="k" style="font-size:12px;color:#909399">vehicles · 448 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">vehicleId</td><td>车辆ID</td><td class="k">str</td><td class="k" style="color:#909399">VH00001</td><td class="num">100%</td></tr><tr><td class="k">plateNo</td><td>车牌</td><td class="k">str</td><td class="k" style="color:#909399">川B·SFV7D</td><td class="num">100%</td></tr><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00001</td><td class="num">100%</td></tr><tr><td class="k">parkId</td><td>车位ID</td><td class="k">str</td><td class="k" style="color:#909399">PK00115</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">vehicleType</td><td>车辆类型</td><td class="k">str</td><td class="k" style="color:#909399">小型车</td><td class="num">100%</td></tr><tr><td class="k">brand</td><td>品牌</td><td class="k">str</td><td class="k" style="color:#909399">吉利</td><td class="num">100%</td></tr><tr><td class="k">color</td><td>颜色</td><td class="k">str</td><td class="k" style="color:#909399">黑</td><td class="num">100%</td></tr><tr><td class="k">cardNo</td><td>卡号</td><td class="k">str</td><td class="k" style="color:#909399">IC14002192</td><td class="num">100%</td></tr><tr><td class="k">authStatus</td><td>授权状态</td><td class="k">str</td><td class="k" style="color:#909399">正常</td><td class="num">100%</td></tr><tr><td class="k">inOutType</td><td>通行类型</td><td class="k">str</td><td class="k" style="color:#909399">月卡</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;vehicleId&quot;: &quot;VH00001&quot;,
+  &quot;plateNo&quot;: &quot;川B·SFV7D&quot;,
+  &quot;ownerId&quot;: &quot;OW00001&quot;,
+  &quot;parkId&quot;: &quot;PK00115&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;vehicleType&quot;: &quot;小型车&quot;,
+  &quot;brand&quot;: &quot;吉利&quot;,
+  &quot;color&quot;: &quot;黑&quot;,
+  &quot;cardNo&quot;: &quot;IC14002192&quot;,
+  &quot;authStatus&quot;: &quot;正常&quot;,
+  &quot;inOutType&quot;: &quot;月卡&quot;
+ },
+ {
+  &quot;vehicleId&quot;: &quot;VH00002&quot;,
+  &quot;plateNo&quot;: &quot;渝A·YCPPQ&quot;,
+  &quot;ownerId&quot;: &quot;OW00002&quot;,
+  &quot;parkId&quot;: &quot;PK00156&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;vehicleType&quot;: &quot;小型车&quot;,
+  &quot;brand&quot;: &quot;奥迪&quot;,
+  &quot;color&quot;: &quot;红&quot;,
+  &quot;cardNo&quot;: &quot;IC92100986&quot;,
+  &quot;authStatus&quot;: &quot;正常&quot;,
+  &quot;inOutType&quot;: &quot;产权&quot;
+ }
+]</pre></details></div><div class="card" id="e-feeItems"><h4>收费项目　<span class="k" style="font-size:12px;color:#909399">feeItems · 10 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">itemId</td><td>科目ID</td><td class="k">str</td><td class="k" style="color:#909399">FI01</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">物业服务费</td><td class="num">100%</td></tr><tr><td class="k">category</td><td>科目类别</td><td class="k">str</td><td class="k" style="color:#909399">常规服务费</td><td class="num">100%</td></tr><tr><td class="k">calcType</td><td>计费方式</td><td class="k">str</td><td class="k" style="color:#909399">按面积</td><td class="num">100%</td></tr><tr><td class="k">price</td><td>单价</td><td class="k">float</td><td class="k" style="color:#909399">2.8</td><td class="num">100%</td></tr><tr><td class="k">unit</td><td>单位</td><td class="k">str</td><td class="k" style="color:#909399">元/㎡·月</td><td class="num">100%</td></tr><tr><td class="k">cycle</td><td>计费周期</td><td class="k">str</td><td class="k" style="color:#909399">月</td><td class="num">100%</td></tr><tr><td class="k">bizType</td><td>业态</td><td class="k">str</td><td class="k" style="color:#909399">住宅</td><td class="num">100%</td></tr><tr><td class="k">taxRate</td><td>税率</td><td class="k">int</td><td class="k" style="color:#909399">6</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">启用</td><td class="num">100%</td></tr><tr><td class="k">remark</td><td>备注</td><td class="k">str</td><td class="k" style="color:#909399">住宅 2.80；商业按项目标准 8.50</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;itemId&quot;: &quot;FI01&quot;,
+  &quot;name&quot;: &quot;物业服务费&quot;,
+  &quot;category&quot;: &quot;常规服务费&quot;,
+  &quot;calcType&quot;: &quot;按面积&quot;,
+  &quot;price&quot;: 2.8,
+  &quot;unit&quot;: &quot;元/㎡·月&quot;,
+  &quot;cycle&quot;: &quot;月&quot;,
+  &quot;bizType&quot;: &quot;住宅&quot;,
+  &quot;taxRate&quot;: 6,
+  &quot;status&quot;: &quot;启用&quot;,
+  &quot;remark&quot;: &quot;住宅 2.80；商业按项目标准 8.50&quot;
+ },
+ {
+  &quot;itemId&quot;: &quot;FI02&quot;,
+  &quot;name&quot;: &quot;电梯运行维护费&quot;,
+  &quot;category&quot;: &quot;常规服务费&quot;,
+  &quot;calcType&quot;: &quot;按面积&quot;,
+  &quot;price&quot;: 0.5,
+  &quot;unit&quot;: &quot;元/㎡·月&quot;,
+  &quot;cycle&quot;: &quot;月&quot;,
+  &quot;bizType&quot;: &quot;住宅&quot;,
+  &quot;taxRate&quot;: 6,
+  &quot;status&quot;: &quot;启用&quot;,
+  &quot;remark&quot;: &quot;首层住户减半&quot;
+ }
+]</pre></details></div><div class="card" id="e-bills"><h4>账单　<span class="k" style="font-size:12px;color:#909399">bills · 4884 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">billId</td><td>账单ID</td><td class="k">str</td><td class="k" style="color:#909399">BL000001</td><td class="num">100%</td></tr><tr><td class="k">period</td><td>账期</td><td class="k">str</td><td class="k" style="color:#909399">2026-08</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">已缴</td><td class="num">100%</td></tr><tr><td class="k">paidAmount</td><td>已缴金额</td><td class="k">float</td><td class="k" style="color:#909399">322.39</td><td class="num">100%</td></tr><tr><td class="k">payTime</td><td>缴费时间</td><td class="k">str</td><td class="k" style="color:#909399">2026-08-30</td><td class="num">82%</td></tr><tr><td class="k">payMethod</td><td>缴费方式</td><td class="k">str</td><td class="k" style="color:#909399">支付宝</td><td class="num">82%</td></tr><tr><td class="k">invoiceNo</td><td>票据号</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">0%</td></tr><tr><td class="k">lateFee</td><td>滞纳金</td><td class="k">float</td><td class="k" style="color:#909399">0.0</td><td class="num">100%</td></tr><tr><td class="k">discount</td><td>减免</td><td class="k">float</td><td class="k" style="color:#909399">0.0</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">houseId</td><td>房屋ID</td><td class="k">str</td><td class="k" style="color:#909399">H010110101</td><td class="num">100%</td></tr><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00005</td><td class="num">100%</td></tr><tr><td class="k">itemId</td><td>科目ID</td><td class="k">str</td><td class="k" style="color:#909399">FI01</td><td class="num">100%</td></tr><tr><td class="k">itemName</td><td>科目名称</td><td class="k">str</td><td class="k" style="color:#909399">物业服务费</td><td class="num">100%</td></tr><tr><td class="k">amount</td><td>应收金额</td><td class="k">float</td><td class="k" style="color:#909399">322.39</td><td class="num">100%</td></tr><tr><td class="k">quantity</td><td>计费量</td><td class="k">float</td><td class="k" style="color:#909399">115.14</td><td class="num">100%</td></tr><tr><td class="k">price</td><td>单价</td><td class="k">float</td><td class="k" style="color:#909399">2.8</td><td class="num">100%</td></tr><tr><td class="k">unit</td><td>计价单位</td><td class="k">str</td><td class="k" style="color:#909399">元/㎡·月</td><td class="num">100%</td></tr><tr><td class="k">createTime</td><td>生成时间</td><td class="k">str</td><td class="k" style="color:#909399">2026-08-13</td><td class="num">100%</td></tr><tr><td class="k">dueDate</td><td>缴费截止</td><td class="k">str</td><td class="k" style="color:#909399">2026-09-15</td><td class="num">100%</td></tr><tr><td class="k">payable</td><td>应缴合计</td><td class="k">float</td><td class="k" style="color:#909399">322.39</td><td class="num">100%</td></tr><tr><td class="k">unpaid</td><td>欠费</td><td class="k">float</td><td class="k" style="color:#909399">0.0</td><td class="num">100%</td></tr><tr><td class="k">overdueDays</td><td>逾期天数</td><td class="k">int</td><td class="k" style="color:#909399">0</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;billId&quot;: &quot;BL000001&quot;,
+  &quot;period&quot;: &quot;2026-08&quot;,
+  &quot;status&quot;: &quot;已缴&quot;,
+  &quot;paidAmount&quot;: 322.39,
+  &quot;payTime&quot;: &quot;2026-08-30&quot;,
+  &quot;payMethod&quot;: &quot;支付宝&quot;,
+  &quot;invoiceNo&quot;: &quot;&quot;,
+  &quot;lateFee&quot;: 0.0,
+  &quot;discount&quot;: 0.0,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;houseId&quot;: &quot;H010110101&quot;,
+  &quot;ownerId&quot;: &quot;OW00005&quot;,
+  &quot;itemId&quot;: &quot;FI01&quot;,
+  &quot;itemName&quot;: &quot;物业服务费&quot;,
+  &quot;amount&quot;: 322.39,
+  &quot;quantity&quot;: 115.14,
+  &quot;price&quot;: 2.8,
+  &quot;unit&quot;: &quot;元/㎡·月&quot;,
+  &quot;createTime&quot;: &quot;2026-08-13&quot;,
+  &quot;dueDate&quot;: &quot;2026-09-15&quot;,
+  &quot;payable&quot;: 322.39,
+  &quot;unpaid&quot;: 0.0,
+  &quot;overdueDays&quot;: 0
+ },
+ {
+  &quot;billId&quot;: &quot;BL000002&quot;,
+  &quot;period&quot;: &quot;2026-08&quot;,
+  &quot;status&quot;: &quot;已缴&quot;,
+  &quot;paidAmount&quot;: 30.66,
+  &quot;payTime&quot;: &quot;2026-08-10&quot;,
+  &quot;payMethod&quot;: &quot;微信支付&quot;,
+  &quot;invoiceNo&quot;: &quot;&quot;,
+  &quot;lateFee&quot;: 0.0,
+  &quot;discount&quot;: 0.0,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;houseId&quot;: &quot;H010110101&quot;,
+  &quot;ownerId&quot;: &quot;OW00005&quot;,
+  &quot;itemId&quot;: &quot;FI05&quot;,
+  &quot;itemName&quot;: &quot;水费&quot;,
+  &quot;amount&quot;: 30.66,
+  &quot;quantity&quot;: 7.3,
+  &quot;price&quot;: 4.2,
+  &quot;unit&quot;: &quot;元/吨&quot;,
+  &quot;createTime&quot;: &quot;2026-08-15&quot;,
+  &quot;meterReading&quot;: &quot;7.3&quot;,
+  &quot;lastReading&quot;: &quot;-15.1&quot;,
+  &quot;dueDate&quot;: &quot;2026-09-15&quot;,
+  &quot;payable&quot;: 30.66,
+  &quot;unpaid&quot;: 0.0,
+  &quot;overdueDays&quot;: 0
+ }
+]</pre></details></div><div class="card" id="e-payments"><h4>缴费记录　<span class="k" style="font-size:12px;color:#909399">payments · 3986 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">payId</td><td>缴费ID</td><td class="k">str</td><td class="k" style="color:#909399">PM000001</td><td class="num">100%</td></tr><tr><td class="k">billId</td><td>账单ID</td><td class="k">str</td><td class="k" style="color:#909399">BL000001</td><td class="num">100%</td></tr><tr><td class="k">houseId</td><td>房屋ID</td><td class="k">str</td><td class="k" style="color:#909399">H010110101</td><td class="num">100%</td></tr><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00005</td><td class="num">100%</td></tr><tr><td class="k">amount</td><td>应收金额</td><td class="k">float</td><td class="k" style="color:#909399">322.39</td><td class="num">100%</td></tr><tr><td class="k">method</td><td><span style="color:#C0C4CC">—</span></td><td class="k">str</td><td class="k" style="color:#909399">支付宝</td><td class="num">100%</td></tr><tr><td class="k">payTime</td><td>缴费时间</td><td class="k">str</td><td class="k" style="color:#909399">2026-08-30</td><td class="num">100%</td></tr><tr><td class="k">transNo</td><td>交易流水</td><td class="k">str</td><td class="k" style="color:#909399">TXN78239155479080</td><td class="num">100%</td></tr><tr><td class="k">operator</td><td>操作员</td><td class="k">str</td><td class="k" style="color:#909399">线上自助</td><td class="num">100%</td></tr><tr><td class="k">invoiceStatus</td><td>开票状态</td><td class="k">str</td><td class="k" style="color:#909399">已开票</td><td class="num">100%</td></tr><tr><td class="k">invoiceNo</td><td>票据号</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">60%</td></tr><tr><td class="k">channel</td><td>支付渠道</td><td class="k">str</td><td class="k" style="color:#909399">预存抵扣</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;payId&quot;: &quot;PM000001&quot;,
+  &quot;billId&quot;: &quot;BL000001&quot;,
+  &quot;houseId&quot;: &quot;H010110101&quot;,
+  &quot;ownerId&quot;: &quot;OW00005&quot;,
+  &quot;amount&quot;: 322.39,
+  &quot;method&quot;: &quot;支付宝&quot;,
+  &quot;payTime&quot;: &quot;2026-08-30&quot;,
+  &quot;transNo&quot;: &quot;TXN78239155479080&quot;,
+  &quot;operator&quot;: &quot;线上自助&quot;,
+  &quot;invoiceStatus&quot;: &quot;已开票&quot;,
+  &quot;invoiceNo&quot;: &quot;&quot;,
+  &quot;channel&quot;: &quot;预存抵扣&quot;
+ },
+ {
+  &quot;payId&quot;: &quot;PM000002&quot;,
+  &quot;billId&quot;: &quot;BL000002&quot;,
+  &quot;houseId&quot;: &quot;H010110101&quot;,
+  &quot;ownerId&quot;: &quot;OW00005&quot;,
+  &quot;amount&quot;: 30.66,
+  &quot;method&quot;: &quot;微信支付&quot;,
+  &quot;payTime&quot;: &quot;2026-08-10&quot;,
+  &quot;transNo&quot;: &quot;TXN94439404530131&quot;,
+  &quot;operator&quot;: &quot;线上自助&quot;,
+  &quot;invoiceStatus&quot;: &quot;已开票&quot;,
+  &quot;invoiceNo&quot;: &quot;&quot;,
+  &quot;channel&quot;: &quot;微信支付&quot;
+ }
+]</pre></details></div><div class="card" id="e-workOrders"><h4>工单　<span class="k" style="font-size:12px;color:#909399">workOrders · 150 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">woId</td><td>工单ID</td><td class="k">str</td><td class="k" style="color:#909399">WO000001</td><td class="num">100%</td></tr><tr><td class="k">woNo</td><td>工单号</td><td class="k">str</td><td class="k" style="color:#909399">BX202600001</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">houseId</td><td>房屋ID</td><td class="k">str</td><td class="k" style="color:#909399">H010110501</td><td class="num">21%</td></tr><tr><td class="k">houseName</td><td>位置/房屋</td><td class="k">str</td><td class="k" style="color:#909399">翡翠城 1栋1单元0501</td><td class="num">100%</td></tr><tr><td class="k">ownerId</td><td>业主ID</td><td class="k">str</td><td class="k" style="color:#909399">OW00001</td><td class="num">100%</td></tr><tr><td class="k">ownerName</td><td>业主姓名</td><td class="k">str</td><td class="k" style="color:#909399">张建国</td><td class="num">100%</td></tr><tr><td class="k">ownerPhone</td><td>业主电话</td><td class="k">str</td><td class="k" style="color:#909399">13800138001</td><td class="num">100%</td></tr><tr><td class="k">type</td><td>工单类型</td><td class="k">str</td><td class="k" style="color:#909399">入户维修</td><td class="num">100%</td></tr><tr><td class="k">category</td><td>科目类别</td><td class="k">str</td><td class="k" style="color:#909399">水管漏水</td><td class="num">100%</td></tr><tr><td class="k">source</td><td>来源</td><td class="k">str</td><td class="k" style="color:#909399">小程序</td><td class="num">100%</td></tr><tr><td class="k">priority</td><td>优先级</td><td class="k">str</td><td class="k" style="color:#909399">紧急</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">处理中</td><td class="num">100%</td></tr><tr><td class="k">title</td><td>标题</td><td class="k">str</td><td class="k" style="color:#909399">主卫水管漏水，请尽快处理</td><td class="num">100%</td></tr><tr><td class="k">description</td><td>描述</td><td class="k">str</td><td class="k" style="color:#909399">业主反馈：主卫角阀处持续渗水，地面积水，希望今天上门。</td><td class="num">100%</td></tr><tr><td class="k">images</td><td>图片数</td><td class="k">int</td><td class="k" style="color:#909399">3</td><td class="num">100%</td></tr><tr><td class="k">createTime</td><td>生成时间</td><td class="k">str</td><td class="k" style="color:#909399">2026-10-21 09:12</td><td class="num">100%</td></tr><tr><td class="k">dispatchMode</td><td>派单方式</td><td class="k">str</td><td class="k" style="color:#909399">自动派单</td><td class="num">100%</td></tr><tr><td class="k">assignee</td><td>处理人</td><td class="k">str</td><td class="k" style="color:#909399">孙德海</td><td class="num">87%</td></tr><tr><td class="k">assigneePhone</td><td>处理人电话</td><td class="k">str</td><td class="k" style="color:#909399">13512345678</td><td class="num">87%</td></tr><tr><td class="k">acceptTime</td><td>接单时间</td><td class="k">str</td><td class="k" style="color:#909399">2026-10-21 09:38</td><td class="num">87%</td></tr><tr><td class="k">arriveTime</td><td>到场时间</td><td class="k">str</td><td class="k" style="color:#909399">2026-10-21 10:05</td><td class="num">74%</td></tr><tr><td class="k">finishTime</td><td>完工时间</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">47%</td></tr><tr><td class="k">durationHours</td><td>耗时</td><td class="k">int</td><td class="k" style="color:#909399">0</td><td class="num">100%</td></tr><tr><td class="k">slaHours</td><td>SLA时限</td><td class="k">int</td><td class="k" style="color:#909399">24</td><td class="num">100%</td></tr><tr><td class="k">isOverdue</td><td>已超时</td><td class="k">bool</td><td class="k" style="color:#909399">False</td><td class="num">100%</td></tr><tr><td class="k">feeType</td><td>收费/免费</td><td class="k">str</td><td class="k" style="color:#909399">收费</td><td class="num">100%</td></tr><tr><td class="k">materialFee</td><td>材料费</td><td class="k">float</td><td class="k" style="color:#909399">120.0</td><td class="num">100%</td></tr><tr><td class="k">laborFee</td><td>工时费</td><td class="k">float</td><td class="k" style="color:#909399">80.0</td><td class="num">100%</td></tr><tr><td class="k">totalFee</td><td>合计</td><td class="k">float</td><td class="k" style="color:#909399">200.0</td><td class="num">100%</td></tr><tr><td class="k">payStatus</td><td>支付状态</td><td class="k">str</td><td class="k" style="color:#909399">未支付</td><td class="num">100%</td></tr><tr><td class="k">score</td><td>满意度评分</td><td class="k">int</td><td class="k" style="color:#909399">0</td><td class="num">100%</td></tr><tr><td class="k">evalTags</td><td>评价标签</td><td class="k">list</td><td class="k" style="color:#909399">[]</td><td class="num">32%</td></tr><tr><td class="k">evaluate</td><td>评价内容</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">26%</td></tr><tr><td class="k">remark</td><td>备注</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">5%</td></tr><tr><td class="k">isPublic</td><td>公共区域</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;woId&quot;: &quot;WO000001&quot;,
+  &quot;woNo&quot;: &quot;BX202600001&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;houseId&quot;: &quot;H010110501&quot;,
+  &quot;houseName&quot;: &quot;翡翠城 1栋1单元0501&quot;,
+  &quot;ownerId&quot;: &quot;OW00001&quot;,
+  &quot;ownerName&quot;: &quot;张建国&quot;,
+  &quot;ownerPhone&quot;: &quot;13800138001&quot;,
+  &quot;type&quot;: &quot;入户维修&quot;,
+  &quot;category&quot;: &quot;水管漏水&quot;,
+  &quot;source&quot;: &quot;小程序&quot;,
+  &quot;priority&quot;: &quot;紧急&quot;,
+  &quot;status&quot;: &quot;处理中&quot;,
+  &quot;title&quot;: &quot;主卫水管漏水，请尽快处理&quot;,
+  &quot;description&quot;: &quot;业主反馈：主卫角阀处持续渗水，地面积水，希望今天上门。&quot;,
+  &quot;images&quot;: 3,
+  &quot;createTime&quot;: &quot;2026-10-21 09:12&quot;,
+  &quot;dispatchMode&quot;: &quot;自动派单&quot;,
+  &quot;assignee&quot;: &quot;孙德海&quot;,
+  &quot;assigneePhone&quot;: &quot;13512345678&quot;,
+  &quot;acceptTime&quot;: &quot;2026-10-21 09:38&quot;,
+  &quot;arriveTime&quot;: &quot;2026-10-21 10:05&quot;,
+  &quot;finishTime&quot;: &quot;&quot;,
+  &quot;durationHours&quot;: 0,
+  &quot;slaHours&quot;: 24,
+  &quot;isOverdue&quot;: false,
+  &quot;feeType&quot;: &quot;收费&quot;,
+  &quot;materialFee&quot;: 120.0,
+  &quot;laborFee&quot;: 80.0,
+  &quot;totalFee&quot;: 200.0,
+  &quot;payStatus&quot;: &quot;未支付&quot;,
+  &quot;score&quot;: 0,
+  &quot;evalTags&quot;: [],
+  &quot;evaluate&quot;: &quot;&quot;,
+  &quot;remark&quot;: &quot;&quot;,
+  &quot;isPublic&quot;: true
+ },
+ {
+  &quot;woId&quot;: &quot;WO000002&quot;,
+  &quot;woNo&quot;: &quot;BX202600002&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;houseId&quot;: &quot;&quot;,
+  &quot;houseName&quot;: &quot;地下车库B1&quot;,
+  &quot;ownerId&quot;: &quot;OW00182&quot;,
+  &quot;ownerName&quot;: &quot;潘子墨&quot;,
+  &quot;ownerPhone&quot;: &quot;18825201902&quot;,
+  &quot;type&quot;: &quot;公共区域维修&quot;,
+  &quot;category&quot;: &quot;瓷砖空鼓&quot;,
+  &quot;source&quot;: &quot;小程序&quot;,
+  &quot;priority&quot;: &quot;普通&quot;,
+  &quot;status&quot;: &quot;已完工&quot;,
+  &quot;title&quot;: &quot;下水道堵塞，已持续多日&quot;,
+  &quot;description&quot;: &quot;业主反馈：门窗损坏，之前维修过一次未彻底解决。&quot;,
+  &quot;images&quot;: 0,
+  &quot;createTime&quot;: &quot;2026-10-01 14:25&quot;,
+  &quot;dispatchMode&quot;: &quot;抢单&quot;,
+  &quot;assignee&quot;: &quot;魏琳&quot;,
+  &quot;assigneePhone&quot;: &quot;18206700512&quot;,
+  &quot;acceptTime&quot;: &quot;2026-10-01&quot;,
+  &quot;arriveTime&quot;: &quot;2026-10-02&quot;,
+  &quot;finishTime&quot;: &quot;2026-10-02&quot;,
+  &quot;durationHours&quot;: 18.6,
+  &quot;slaHours&quot;: 24,
+  &quot;isOverdue&quot;: false,
+  &quot;feeType&quot;: &quot;免费&quot;,
+  &quot;materialFee&quot;: 0.0,
+  &quot;laborFee&quot;: 0.0,
+  &quot;totalFee&quot;: 0.0,
+  &quot;payStatus&quot;: &quot;无需支付&quot;,
+  &quot;score&quot;: 0,
+  &quot;evalTags&quot;: [],
+  &quot;evaluate&quot;: &quot;&quot;,
+  &quot;remark&quot;: &quot;&quot;,
+  &quot;isPublic&quot;: true
+ }
+]</pre></details></div><div class="card" id="e-devices"><h4>设备　<span class="k" style="font-size:12px;color:#909399">devices · 80 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">deviceId</td><td>设备ID</td><td class="k">str</td><td class="k" style="color:#909399">DV0001</td><td class="num">100%</td></tr><tr><td class="k">deviceCode</td><td>设备编码</td><td class="k">str</td><td class="k" style="color:#909399">摄-001</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">3栋摄像头</td><td class="num">100%</td></tr><tr><td class="k">type</td><td>设备类型</td><td class="k">str</td><td class="k" style="color:#909399">摄像头</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">brand</td><td>品牌</td><td class="k">str</td><td class="k" style="color:#909399">青云</td><td class="num">100%</td></tr><tr><td class="k">model</td><td>型号</td><td class="k">str</td><td class="k" style="color:#909399">M-107</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">离线</td><td class="num">100%</td></tr><tr><td class="k">online</td><td>在线</td><td class="k">bool</td><td class="k" style="color:#909399">False</td><td class="num">100%</td></tr><tr><td class="k">lastHeartbeat</td><td>最后心跳</td><td class="k">str</td><td class="k" style="color:#909399">2026-10-17</td><td class="num">100%</td></tr><tr><td class="k">ip</td><td>IP</td><td class="k">str</td><td class="k" style="color:#909399">10.0.31.242</td><td class="num">100%</td></tr><tr><td class="k">firmware</td><td>固件版本</td><td class="k">str</td><td class="k" style="color:#909399">v3.6.10</td><td class="num">100%</td></tr><tr><td class="k">installDate</td><td>安装日期</td><td class="k">str</td><td class="k" style="color:#909399">2021-03-12</td><td class="num">100%</td></tr><tr><td class="k">warrantyEnd</td><td>保修截止</td><td class="k">str</td><td class="k" style="color:#909399">2027-09-04</td><td class="num">100%</td></tr><tr><td class="k">location</td><td>安装位置</td><td class="k">str</td><td class="k" style="color:#909399">1栋单元门口</td><td class="num">100%</td></tr><tr><td class="k">vendor</td><td>厂商</td><td class="k">str</td><td class="k" style="color:#909399">大华股份</td><td class="num">100%</td></tr><tr><td class="k">qrCode</td><td>二维码</td><td class="k">str</td><td class="k" style="color:#909399">QR4452279359</td><td class="num">100%</td></tr><tr><td class="k">maintainCycle</td><td>维保周期</td><td class="k">str</td><td class="k" style="color:#909399">半年</td><td class="num">100%</td></tr><tr><td class="k">nextMaintain</td><td>下次维保</td><td class="k">str</td><td class="k" style="color:#909399">2027-02-01</td><td class="num">100%</td></tr><tr><td class="k">alarmCount</td><td>告警次数</td><td class="k">int</td><td class="k" style="color:#909399">0</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;deviceId&quot;: &quot;DV0001&quot;,
+  &quot;deviceCode&quot;: &quot;摄-001&quot;,
+  &quot;name&quot;: &quot;3栋摄像头&quot;,
+  &quot;type&quot;: &quot;摄像头&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;brand&quot;: &quot;青云&quot;,
+  &quot;model&quot;: &quot;M-107&quot;,
+  &quot;status&quot;: &quot;离线&quot;,
+  &quot;online&quot;: false,
+  &quot;lastHeartbeat&quot;: &quot;2026-10-17&quot;,
+  &quot;ip&quot;: &quot;10.0.31.242&quot;,
+  &quot;firmware&quot;: &quot;v3.6.10&quot;,
+  &quot;installDate&quot;: &quot;2021-03-12&quot;,
+  &quot;warrantyEnd&quot;: &quot;2027-09-04&quot;,
+  &quot;location&quot;: &quot;1栋单元门口&quot;,
+  &quot;vendor&quot;: &quot;大华股份&quot;,
+  &quot;qrCode&quot;: &quot;QR4452279359&quot;,
+  &quot;maintainCycle&quot;: &quot;半年&quot;,
+  &quot;nextMaintain&quot;: &quot;2027-02-01&quot;,
+  &quot;alarmCount&quot;: 0
+ },
+ {
+  &quot;deviceId&quot;: &quot;DV0002&quot;,
+  &quot;deviceCode&quot;: &quot;车-002&quot;,
+  &quot;name&quot;: &quot;2栋车闸&quot;,
+  &quot;type&quot;: &quot;车闸&quot;,
+  &quot;communityId&quot;: &quot;P02&quot;,
+  &quot;brand&quot;: &quot;大华&quot;,
+  &quot;model&quot;: &quot;M-492&quot;,
+  &quot;status&quot;: &quot;告警&quot;,
+  &quot;online&quot;: true,
+  &quot;lastHeartbeat&quot;: &quot;2026-10-21 14:21&quot;,
+  &quot;ip&quot;: &quot;10.0.36.83&quot;,
+  &quot;firmware&quot;: &quot;v5.8.13&quot;,
+  &quot;installDate&quot;: &quot;2023-02-26&quot;,
+  &quot;warrantyEnd&quot;: &quot;2029-12-05&quot;,
+  &quot;location&quot;: &quot;电梯机房&quot;,
+  &quot;vendor&quot;: &quot;大华股份&quot;,
+  &quot;qrCode&quot;: &quot;QR7296924317&quot;,
+  &quot;maintainCycle&quot;: &quot;半年&quot;,
+  &quot;nextMaintain&quot;: &quot;2027-01-20&quot;,
+  &quot;alarmCount&quot;: 6
+ }
+]</pre></details></div><div class="card" id="e-alarms"><h4>告警　<span class="k" style="font-size:12px;color:#909399">alarms · 45 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">alarmId</td><td>告警ID</td><td class="k">str</td><td class="k" style="color:#909399">AL00001</td><td class="num">100%</td></tr><tr><td class="k">deviceId</td><td>设备ID</td><td class="k">str</td><td class="k" style="color:#909399">DV0004</td><td class="num">100%</td></tr><tr><td class="k">deviceName</td><td>设备名称</td><td class="k">str</td><td class="k" style="color:#909399">2栋门禁</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">type</td><td>类型</td><td class="k">str</td><td class="k" style="color:#909399">门禁异常开启</td><td class="num">100%</td></tr><tr><td class="k">level</td><td>告警等级</td><td class="k">str</td><td class="k" style="color:#909399">紧急</td><td class="num">100%</td></tr><tr><td class="k">content</td><td>内容</td><td class="k">str</td><td class="k" style="color:#909399">抬杆指令无响应</td><td class="num">100%</td></tr><tr><td class="k">occurTime</td><td>发生时间</td><td class="k">str</td><td class="k" style="color:#909399">2026-10-21 00:05</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">未处理</td><td class="num">100%</td></tr><tr><td class="k">handleBy</td><td>处理人</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">62%</td></tr><tr><td class="k">handleTime</td><td>处理时间</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">62%</td></tr><tr><td class="k">dispatchWoId</td><td>派发工单</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">22%</td></tr><tr><td class="k">duration</td><td>处理时长(分)</td><td class="k">int</td><td class="k" style="color:#909399">0</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;alarmId&quot;: &quot;AL00001&quot;,
+  &quot;deviceId&quot;: &quot;DV0004&quot;,
+  &quot;deviceName&quot;: &quot;2栋门禁&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;type&quot;: &quot;门禁异常开启&quot;,
+  &quot;level&quot;: &quot;紧急&quot;,
+  &quot;content&quot;: &quot;抬杆指令无响应&quot;,
+  &quot;occurTime&quot;: &quot;2026-10-21 00:05&quot;,
+  &quot;status&quot;: &quot;未处理&quot;,
+  &quot;handleBy&quot;: &quot;&quot;,
+  &quot;handleTime&quot;: &quot;&quot;,
+  &quot;dispatchWoId&quot;: &quot;&quot;,
+  &quot;duration&quot;: 0
+ },
+ {
+  &quot;alarmId&quot;: &quot;AL00002&quot;,
+  &quot;deviceId&quot;: &quot;DV0014&quot;,
+  &quot;deviceName&quot;: &quot;2栋水电表&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;type&quot;: &quot;设备离线&quot;,
+  &quot;level&quot;: &quot;重要&quot;,
+  &quot;content&quot;: &quot;上行链路中断&quot;,
+  &quot;occurTime&quot;: &quot;2026-10-21 15:01&quot;,
+  &quot;status&quot;: &quot;处理中&quot;,
+  &quot;handleBy&quot;: &quot;曾浩&quot;,
+  &quot;handleTime&quot;: &quot;2026-10-18&quot;,
+  &quot;dispatchWoId&quot;: &quot;&quot;,
+  &quot;duration&quot;: 240
+ }
+]</pre></details></div><div class="card" id="e-inspectPlans"><h4>巡检计划　<span class="k" style="font-size:12px;color:#909399">inspectPlans · 12 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">planId</td><td>计划ID</td><td class="k">str</td><td class="k" style="color:#909399">IP01</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>名称</td><td class="k">str</td><td class="k" style="color:#909399">保洁责任区日检</td><td class="num">100%</td></tr><tr><td class="k">post</td><td>岗位</td><td class="k">str</td><td class="k" style="color:#909399">保洁</td><td class="num">100%</td></tr><tr><td class="k">cycle</td><td>执行周期</td><td class="k">str</td><td class="k" style="color:#909399">每日</td><td class="num">100%</td></tr><tr><td class="k">templateId</td><td>模板ID</td><td class="k">str</td><td class="k" style="color:#909399">TP-CLEAN</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P01</td><td class="num">100%</td></tr><tr><td class="k">executor</td><td>执行人</td><td class="k">str</td><td class="k" style="color:#909399">孙桂英</td><td class="num">100%</td></tr><tr><td class="k">items</td><td>检查项数</td><td class="k">int</td><td class="k" style="color:#909399">6</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">启用</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;planId&quot;: &quot;IP01&quot;,
+  &quot;name&quot;: &quot;保洁责任区日检&quot;,
+  &quot;post&quot;: &quot;保洁&quot;,
+  &quot;cycle&quot;: &quot;每日&quot;,
+  &quot;templateId&quot;: &quot;TP-CLEAN&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;executor&quot;: &quot;孙桂英&quot;,
+  &quot;items&quot;: 6,
+  &quot;status&quot;: &quot;启用&quot;
+ },
+ {
+  &quot;planId&quot;: &quot;IP02&quot;,
+  &quot;name&quot;: &quot;保安夜间巡更&quot;,
+  &quot;post&quot;: &quot;保安&quot;,
+  &quot;cycle&quot;: &quot;每日&quot;,
+  &quot;templateId&quot;: &quot;TP-GUARD&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;executor&quot;: &quot;赵铁柱&quot;,
+  &quot;items&quot;: 12,
+  &quot;status&quot;: &quot;启用&quot;
+ }
+]</pre></details></div><div class="card" id="e-inspectTasks"><h4>巡检任务　<span class="k" style="font-size:12px;color:#909399">inspectTasks · 240 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">taskId</td><td>任务ID</td><td class="k">str</td><td class="k" style="color:#909399">IT00001</td><td class="num">100%</td></tr><tr><td class="k">planId</td><td>计划ID</td><td class="k">str</td><td class="k" style="color:#909399">IP08</td><td class="num">100%</td></tr><tr><td class="k">planName</td><td>计划名称</td><td class="k">str</td><td class="k" style="color:#909399">垃圾房消杀检查</td><td class="num">100%</td></tr><tr><td class="k">post</td><td>岗位</td><td class="k">str</td><td class="k" style="color:#909399">环境</td><td class="num">100%</td></tr><tr><td class="k">communityId</td><td>项目ID</td><td class="k">str</td><td class="k" style="color:#909399">P02</td><td class="num">100%</td></tr><tr><td class="k">executor</td><td>执行人</td><td class="k">str</td><td class="k" style="color:#909399">冯小花</td><td class="num">100%</td></tr><tr><td class="k">templateId</td><td>模板ID</td><td class="k">str</td><td class="k" style="color:#909399">TP-TRASH</td><td class="num">100%</td></tr><tr><td class="k">scheduledDate</td><td>计划日期</td><td class="k">str</td><td class="k" style="color:#909399">2026-10-09</td><td class="num">100%</td></tr><tr><td class="k">scheduledTime</td><td>计划时间</td><td class="k">str</td><td class="k" style="color:#909399">14:00</td><td class="num">100%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">已完成</td><td class="num">100%</td></tr><tr><td class="k">doneTime</td><td>完成时间</td><td class="k">str</td><td class="k" style="color:#909399">2026-10-09 20:05</td><td class="num">70%</td></tr><tr><td class="k">duration</td><td>处理时长(分)</td><td class="k">int</td><td class="k" style="color:#909399">36</td><td class="num">100%</td></tr><tr><td class="k">itemCount</td><td>应检项</td><td class="k">int</td><td class="k" style="color:#909399">4</td><td class="num">100%</td></tr><tr><td class="k">normalCount</td><td>正常项</td><td class="k">int</td><td class="k" style="color:#909399">3</td><td class="num">100%</td></tr><tr><td class="k">issueCount</td><td>问题项</td><td class="k">int</td><td class="k" style="color:#909399">2</td><td class="num">100%</td></tr><tr><td class="k">photos</td><td>照片数</td><td class="k">int</td><td class="k" style="color:#909399">6</td><td class="num">100%</td></tr><tr><td class="k">checkinType</td><td>到位方式</td><td class="k">str</td><td class="k" style="color:#909399">NFC</td><td class="num">100%</td></tr><tr><td class="k">checkedIn</td><td>已到位</td><td class="k">bool</td><td class="k" style="color:#909399">True</td><td class="num">100%</td></tr><tr><td class="k">gps</td><td>定位</td><td class="k">str</td><td class="k" style="color:#909399">104.067473,30.59684</td><td class="num">100%</td></tr><tr><td class="k">score</td><td>绩效分</td><td class="k">int</td><td class="k" style="color:#909399">89</td><td class="num">100%</td></tr><tr><td class="k">refWoId</td><td>转出工单</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">4%</td></tr><tr><td class="k">reviewer</td><td>复核人</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">30%</td></tr><tr><td class="k">reviewScore</td><td>复核得分</td><td class="k">int</td><td class="k" style="color:#909399">0</td><td class="num">100%</td></tr><tr><td class="k">reviewTime</td><td>复核时间</td><td class="k">str</td><td class="k" style="color:#909399"></td><td class="num">30%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;taskId&quot;: &quot;IT00001&quot;,
+  &quot;planId&quot;: &quot;IP08&quot;,
+  &quot;planName&quot;: &quot;垃圾房消杀检查&quot;,
+  &quot;post&quot;: &quot;环境&quot;,
+  &quot;communityId&quot;: &quot;P02&quot;,
+  &quot;executor&quot;: &quot;冯小花&quot;,
+  &quot;templateId&quot;: &quot;TP-TRASH&quot;,
+  &quot;scheduledDate&quot;: &quot;2026-10-09&quot;,
+  &quot;scheduledTime&quot;: &quot;14:00&quot;,
+  &quot;status&quot;: &quot;已完成&quot;,
+  &quot;doneTime&quot;: &quot;2026-10-09 20:05&quot;,
+  &quot;duration&quot;: 36,
+  &quot;itemCount&quot;: 4,
+  &quot;normalCount&quot;: 3,
+  &quot;issueCount&quot;: 2,
+  &quot;photos&quot;: 6,
+  &quot;checkinType&quot;: &quot;NFC&quot;,
+  &quot;checkedIn&quot;: true,
+  &quot;gps&quot;: &quot;104.067473,30.59684&quot;,
+  &quot;score&quot;: 89,
+  &quot;refWoId&quot;: &quot;&quot;,
+  &quot;reviewer&quot;: &quot;&quot;,
+  &quot;reviewScore&quot;: 0,
+  &quot;reviewTime&quot;: &quot;&quot;
+ },
+ {
+  &quot;taskId&quot;: &quot;IT00002&quot;,
+  &quot;planId&quot;: &quot;IP03&quot;,
+  &quot;planName&quot;: &quot;电梯日常点检&quot;,
+  &quot;post&quot;: &quot;工程&quot;,
+  &quot;communityId&quot;: &quot;P01&quot;,
+  &quot;executor&quot;: &quot;周明&quot;,
+  &quot;templateId&quot;: &quot;TP-ELEV&quot;,
+  &quot;scheduledDate&quot;: &quot;2026-10-17&quot;,
+  &quot;scheduledTime&quot;: &quot;19:00&quot;,
+  &quot;status&quot;: &quot;已完成&quot;,
+  &quot;doneTime&quot;: &quot;2026-10-17 12:40&quot;,
+  &quot;duration&quot;: 87,
+  &quot;itemCount&quot;: 9,
+  &quot;normalCount&quot;: 9,
+  &quot;issueCount&quot;: 0,
+  &quot;photos&quot;: 11,
+  &quot;checkinType&quot;: &quot;扫码&quot;,
+  &quot;checkedIn&quot;: true,
+  &quot;gps&quot;: &quot;104.063389,30.56185&quot;,
+  &quot;score&quot;: 93,
+  &quot;refWoId&quot;: &quot;&quot;,
+  &quot;reviewer&quot;: &quot;李春梅&quot;,
+  &quot;reviewScore&quot;: 83,
+  &quot;reviewTime&quot;: &quot;2026-10-19&quot;
+ }
+]</pre></details></div><div class="card" id="e-inspectTemplates"><h4>巡检表单模板　<span class="k" style="font-size:12px;color:#909399">inspectTemplates · 3 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">templateId</td><td>模板ID</td><td class="k">str</td><td class="k" style="color:#909399">TP-CLEAN</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>模板名称</td><td class="k">str</td><td class="k" style="color:#909399">保洁责任区日检表</td><td class="num">100%</td></tr><tr><td class="k">post</td><td>岗位</td><td class="k">str</td><td class="k" style="color:#909399">保洁</td><td class="num">100%</td></tr><tr><td class="k">version</td><td>版本</td><td class="k">str</td><td class="k" style="color:#909399">v2.1</td><td class="num">100%</td></tr><tr><td class="k">fields</td><td>字段定义</td><td class="k">list</td><td class="k" style="color:#909399">[{&quot;label&quot;: &quot;大堂地面&quot;, &quot;type&quot;: &quot;拍照&quot;, &quot;required&quot;: true, &quot;standard&quot;: &quot;无积尘、无水渍&quot;}, {&quot;label&quot;: &quot;电梯轿厢…</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;templateId&quot;: &quot;TP-CLEAN&quot;,
+  &quot;name&quot;: &quot;保洁责任区日检表&quot;,
+  &quot;post&quot;: &quot;保洁&quot;,
+  &quot;version&quot;: &quot;v2.1&quot;,
+  &quot;fields&quot;: [
+   {
+    &quot;label&quot;: &quot;大堂地面&quot;,
+    &quot;type&quot;: &quot;拍照&quot;,
+    &quot;required&quot;: true,
+    &quot;standard&quot;: &quot;无积尘、无水渍&quot;
+   },
+   {
+    &quot;label&quot;: &quot;电梯轿厢&quot;,
+    &quot;type&quot;: &quot;拍照&quot;,
+    &quot;required&quot;: true,
+    &quot;standard&quot;: &quot;内壁无手印、地面无杂物&quot;
+   },
+   {
+    &quot;label&quot;: &quot;楼梯间&quot;,
+    &quot;type&quot;: &quot;拍照&quot;,
+    &quot;required&quot;: true,
+    &quot;standard&quot;: &quot;扶手无灰、无堆物&quot;
+   },
+   {
+    &quot;label&quot;: &quot;扶梯&quot;,
+    &quot;type&quot;: &quot;拍照&quot;,
+    &quot;required&quot;: false,
+    &quot;standard&quot;: &quot;踏板无异物&quot;
+   },
+   {
+    &quot;label&quot;: &quot;公共卫生间&quot;,
+    &quot;type&quot;: &quot;拍照&quot;,
+    &quot;required&quot;: true,
+    &quot;standard&quot;: &quot;无异味、纸品充足&quot;
+   },
+   {
+    &quot;label&quot;: &quot;垃圾收集点&quot;,
+    &quot;type&quot;: &quot;拍照&quot;,
+    &quot;required&quot;: true,
+    &quot;standard&quot;: &quot;桶盖闭合、周边无散落&quot;
+   }
+  ]
+ },
+ {
+  &quot;templateId&quot;: &quot;TP-GUARD&quot;,
+  &quot;name&quot;: &quot;保安巡更点位表&quot;,
+  &quot;post&quot;: &quot;保安&quot;,
+  &quot;version&quot;: &quot;v1.8&quot;,
+  &quot;fields&quot;: [
+   {
+    &quot;label&quot;: &quot;点位扫码&quot;,
+    &quot;type&quot;: &quot;扫码&quot;,
+    &quot;required&quot;: true,
+    &quot;standard&quot;: &quot;现场二维码，禁止相册&quot;
+   },
+   {
+    &quot;label&quot;: &quot;现场照片&quot;,
+    &quot;type&quot;: &quot;拍照&quot;,
+    &quot;required&quot;: true,
+    &quot;standard&quot;: &quot;带水印，含时间地点&quot;
+   },
+   {
+    &quot;label&quot;: &quot;异常情况&quot;,
+    &quot;type&quot;: &quot;单选&quot;,
+    &quot;required&quot;: false,
+    &quot;options&quot;: [
+     &quot;无&quot;,
+     &quot;可疑人员&quot;,
+     &quot;设施损坏&quot;,
+     &quot;安全隐患&quot;
+    ]
+   },
+   {
+    &quot;label&quot;: &quot;异常描述&quot;,
+    &quot;type&quot;: &quot;文本&quot;,
+    &quot;required&quot;: false,
+    &quot;visibleWhen&quot;: &quot;异常情况≠无&quot;
+   }
+  ]
+ }
+]</pre></details></div><div class="card" id="e-employees"><h4>员工　<span class="k" style="font-size:12px;color:#909399">employees · 120 条</span></h4><table><thead><tr><th>字段</th><th>中文</th><th>类型</th><th>示例值</th><th>填充率</th></tr></thead><tbody><tr><td class="k">empId</td><td>员工ID</td><td class="k">str</td><td class="k" style="color:#909399">EM0001</td><td class="num">100%</td></tr><tr><td class="k">empNo</td><td>工号</td><td class="k">str</td><td class="k" style="color:#909399">J240001</td><td class="num">100%</td></tr><tr><td class="k">name</td><td>姓名</td><td class="k">str</td><td class="k" style="color:#909399">雷志强</td><td class="num">100%</td></tr><tr><td class="k">gender</td><td>性别</td><td class="k">str</td><td class="k" style="color:#909399">女</td><td class="num">100%</td></tr><tr><td class="k">phone</td><td>电话</td><td class="k">str</td><td class="k" style="color:#909399">19537157588</td><td class="num">100%</td></tr><tr><td class="k">idCard</td><td>身份证</td><td class="k">str</td><td class="k" style="color:#909399">510196090558427829</td><td class="num">100%</td></tr><tr><td class="k">orgId</td><td>所属组织</td><td class="k">str</td><td class="k" style="color:#909399">O-P01</td><td class="num">100%</td></tr><tr><td class="k">position</td><td>岗位</td><td class="k">str</td><td class="k" style="color:#909399">总经理</td><td class="num">100%</td></tr><tr><td class="k">level</td><td>职级</td><td class="k">str</td><td class="k" style="color:#909399">M2</td><td class="num">100%</td></tr><tr><td class="k">empType</td><td>用工类型</td><td class="k">str</td><td class="k" style="color:#909399">正式</td><td class="num">100%</td></tr><tr><td class="k">entryDate</td><td>入职日期</td><td class="k">str</td><td class="k" style="color:#909399">2024-10-23</td><td class="num">100%</td></tr><tr><td class="k">regularDate</td><td>转正日期</td><td class="k">str</td><td class="k" style="color:#909399">2025-01-21</td><td class="num">98%</td></tr><tr><td class="k">status</td><td>状态</td><td class="k">str</td><td class="k" style="color:#909399">在职</td><td class="num">100%</td></tr><tr><td class="k">contractStart</td><td>合同开始</td><td class="k">str</td><td class="k" style="color:#909399">2024-10-23</td><td class="num">100%</td></tr><tr><td class="k">contractEnd</td><td>合同结束</td><td class="k">str</td><td class="k" style="color:#909399">2026-10-23</td><td class="num">100%</td></tr><tr><td class="k">probationMonths</td><td>试用期(月)</td><td class="k">int</td><td class="k" style="color:#909399">2</td><td class="num">100%</td></tr><tr><td class="k">baseSalary</td><td>基本工资</td><td class="k">float</td><td class="k" style="color:#909399">9000.0</td><td class="num">100%</td></tr><tr><td class="k">monthlySalary</td><td>月薪合计</td><td class="k">float</td><td class="k" style="color:#909399">11058.98</td><td class="num">100%</td></tr><tr><td class="k">bankCard</td><td>银行卡</td><td class="k">str</td><td class="k" style="color:#909399">6222****9381</td><td class="num">100%</td></tr><tr><td class="k">socialSecurity</td><td>缴社保</td><td class="k">bool</td><td class="k" style="color:#909399">False</td><td class="num">100%</td></tr><tr><td class="k">certificates</td><td>证书</td><td class="k">list</td><td class="k" style="color:#909399">[]</td><td class="num">10%</td></tr><tr><td class="k">attendance</td><td>考勤</td><td class="k">dict</td><td class="k" style="color:#909399">{&quot;late&quot;: 3, &quot;leaveDays&quot;: 2, &quot;overtimeHours&quot;: 29}</td><td class="num">100%</td></tr><tr><td class="k">score</td><td>绩效分</td><td class="k">int</td><td class="k" style="color:#909399">95</td><td class="num">100%</td></tr><tr><td class="k">manager</td><td>直属上级</td><td class="k">str</td><td class="k" style="color:#909399">周建国</td><td class="num">100%</td></tr></tbody></table><details><summary>查看前 2 条原始 JSON</summary><pre>[
+ {
+  &quot;empId&quot;: &quot;EM0001&quot;,
+  &quot;empNo&quot;: &quot;J240001&quot;,
+  &quot;name&quot;: &quot;雷志强&quot;,
+  &quot;gender&quot;: &quot;女&quot;,
+  &quot;phone&quot;: &quot;19537157588&quot;,
+  &quot;idCard&quot;: &quot;510196090558427829&quot;,
+  &quot;orgId&quot;: &quot;O-P01&quot;,
+  &quot;position&quot;: &quot;总经理&quot;,
+  &quot;level&quot;: &quot;M2&quot;,
+  &quot;empType&quot;: &quot;正式&quot;,
+  &quot;entryDate&quot;: &quot;2024-10-23&quot;,
+  &quot;regularDate&quot;: &quot;2025-01-21&quot;,
+  &quot;status&quot;: &quot;在职&quot;,
+  &quot;contractStart&quot;: &quot;2024-10-23&quot;,
+  &quot;contractEnd&quot;: &quot;2026-10-23&quot;,
+  &quot;probationMonths&quot;: 2,
+  &quot;baseSalary&quot;: 9000.0,
+  &quot;monthlySalary&quot;: 11058.98,
+  &quot;bankCard&quot;: &quot;6222****9381&quot;,
+  &quot;socialSecurity&quot;: false,
+  &quot;certificates&quot;: [],
+  &quot;attendance&quot;: {
+   &quot;late&quot;: 3,
+   &quot;leaveDays&quot;: 2,
+   &quot;overtimeHours&quot;: 29
+  },
+  &quot;score&quot;: 95,
+  &quot;manager&quot;: &quot;周建国&quot;
+ },
+ {
+  &quot;empId&quot;: &quot;EM0002&quot;,
+  &quot;empNo&quot;: &quot;J250002&quot;,
+  &quot;name&quot;: &quot;何淑珍&quot;,
+  &quot;gender&quot;: &quot;女&quot;,
+  &quot;phone&quot;: &quot;13939291782&quot;,
+  &quot;idCard&quot;: &quot;510166050815212848&quot;,
+  &quot;orgId&quot;: &quot;O-P01&quot;,
+  &quot;position&quot;: &quot;总经理&quot;,
+  &quot;level&quot;: &quot;M2&quot;,
+  &quot;empType&quot;: &quot;正式&quot;,
+  &quot;entryDate&quot;: &quot;2025-04-16&quot;,
+  &quot;regularDate&quot;: &quot;2025-07-15&quot;,
+  &quot;status&quot;: &quot;在职&quot;,
+  &quot;contractStart&quot;: &quot;2025-04-16&quot;,
+  &quot;contractEnd&quot;: &quot;2027-04-16&quot;,
+  &quot;probationMonths&quot;: 6,
+  &quot;baseSalary&quot;: 12000.0,
+  &quot;monthlySalary&quot;: 18266.35,
+  &quot;bankCard&quot;: &quot;6222****1146&quot;,
+  &quot;socialSecurity&quot;: true,
+  &quot;certificates&quot;: [],
+  &quot;attendance&quot;: {
+   &quot;late&quot;: 0,
+   &quot;leaveDays&quot;: 1,
+   &quot;overtimeHours&quot;: 26
+  },
+  &quot;score&quot;: 73,
+  &quot;manager&quot;: &quot;陈瑞&quot;
+ }
+]</pre></details></div>
+</section><section id="s4"><h2><span class="no">4</span>数据口径</h2>
+<div class="note"><b>口径不一致是评审时最容易吵起来的地方，这里先写死。</b>任何页面出现第二套算法，以本页为准。</div>
+<table><thead><tr><th>指标 / 概念</th><th>口径</th><th>为什么</th></tr></thead><tbody>
+<tr><td><b>欠费</b></td><td>已出账未收款金额（<code>bill.unpaid</code>），<b>不含未出账应收</b></td><td>把未来几个月的应收算进欠费，业主一查就吵架</td></tr>
+<tr><td><b>逾期天数</b></td><td>按最早一期未缴账期的 <code>dueDate</code> 起算，不是按最后一期</td><td>否则长期欠费户的账龄被低估</td></tr>
+<tr><td><b>收缴率</b></td><td>本期已收 ÷ 本期应收 × 100%，分母含减免与作废</td><td>分母剔除减免会让收缴率虚高</td></tr>
+<tr><td><b>空置率</b></td><td>空置房屋 ÷ 房屋总数，<b>分母不含车位与配套用房</b></td><td>车位空置是另一个指标，混算无法指导经营</td></tr>
+<tr><td><b>在册人口</b></td><td>按身份证去重，不以「房屋数 × 3」上报</td><td>一人多房会被重复统计</td></tr>
+<tr><td><b>门禁 vs 车场</b></td><td>门禁记<b>人次</b>、车场记<b>车次</b>，<b>两者不能相加</b></td><td>量纲不同，相加没有业务含义</td></tr>
+<tr><td><b>设备在线率</b></td><td>心跳超时阈值按设备类型区分（摄像头 3min、门禁 5min、表计 30min）</td><td>统一阈值会让低频上报的表计长期「离线」</td></tr>
+<tr><td><b>房屋总数</b></td><td>= 楼栋 × 单元 × 层数 × 每层户数，本数据集 736</td><td>与项目卡片的 houseCount 必须一致</td></tr>
+<tr><td><b>一人多房收费</b></td><td>按业主聚合，票据按房号分行，金额合并计一次</td><td>业主要求一张票，财务要求分房核算</td></tr>
+<tr><td><b>工单是否超时</b></td><td>以 <code>createTime + slaHours</code> 判断，公共区域 24h、入户 12h</td><td>两类工单响应要求不同</td></tr>
+</tbody></table>
+<div class="hr" style="height:1px;background:#EBEEF5;margin:18px 0"></div>
+<h3>脱敏规则（个人信息保护法硬要求）</h3>
+<table><thead><tr><th>字段</th><th>列表默认</th><th>查看详情</th><th>导出</th></tr></thead><tbody>
+<tr><td>手机号</td><td>138****8001</td><td>需二次验证并写日志</td><td>需审批</td></tr>
+<tr><td>身份证</td><td>5101**********1234</td><td>需二次验证并写日志</td><td>需审批</td></tr>
+<tr><td>银行卡</td><td>6222****1234</td><td>仅本人与财务主管</td><td>禁止导出</td></tr>
+<tr><td>人脸 / 照片</td><td>不显示</td><td>仅门禁授权页，带水印</td><td>禁止导出</td></tr>
+</tbody></table>
+</section><section id="s5"><h2><span class="no">5</span>使用方式</h2>
+<h3>在 Vue 项目里使用</h3>
+<pre>// 全量引入（原型阶段方便，生产请改用 API）
+import { houses, owners, bills } from '@/mock'
+
+// 按业主聚合欠费（业主 360 / 收银台都用它）
+const debtOf = (ownerId) =>
+  bills.filter(b => b.ownerId === ownerId && b.status !== '已缴')
+       .reduce((s, b) => s + b.unpaid, 0)
+
+// 一人多房：王浩然 3 套房
+const wang = owners.find(o => o.name === '王浩然')
+const hisHouses = houses.filter(h => wang.houseIds.includes(h.houseId))</pre>
+<h3>各实体的典型用途</h3>
+<table><thead><tr><th>页面</th><th>主要取数</th></tr></thead><tbody>
+<tr><td>资产驾驶舱</td><td>houses / buildings / parkings / communities + metrics.asset</td></tr>
+<tr><td>物联驾驶舱</td><td>devices / alarms + metrics.iot</td></tr>
+<tr><td>费用驾驶舱</td><td>bills / payments / feeItems + metrics.fee</td></tr>
+<tr><td>办公工作台</td><td>metrics.workbench + workOrders + inspectTasks</td></tr>
+<tr><td>业主 360</td><td>owners + houses + members + parkings + vehicles + bills + workOrders（一次聚合）</td></tr>
+<tr><td>PC 收银台</td><td>owners（检索）+ houses + bills（勾选结算）+ payments（写回）</td></tr>
+<tr><td>报修工单</td><td>workOrders + houses + owners + feeItems</td></tr>
+<tr><td>巡检执行</td><td>inspectPlans + inspectTasks + inspectTemplates</td></tr>
+<tr><td>人力资源</td><td>employees + orgs</td></tr>
+</tbody></table>
+<div class="note"><b>性能提示：</b><code>bills.json</code> 约 2.4MB、<code>payments.json</code> 约 1.2MB。原型阶段按需 import 即可；正式开发请一律改为接口分页，不要把全量账单塞进前端。</div>
+<h3>文件清单</h3>
+<table><thead><tr><th>文件</th><th>说明</th></tr></thead><tbody>
+<tr><td class="k">mock/*.json</td><td>21 个实体数据文件</td></tr>
+<tr><td class="k">mock/index.js</td><td>统一导出，<code>import { houses } from '@/mock'</code></td></tr>
+<tr><td class="k">mock/_meta.json</td><td>生成时间、随机种子、各实体条数</td></tr>
+<tr><td class="k">seed_dataset.py</td><td>生成器（仓库外，不进前端项目）</td></tr>
+<tr><td class="k">本页</td><td>字段字典、演示剧本、数据口径</td></tr>
+</tbody></table>
+</section>
+</main></div></div></body></html>

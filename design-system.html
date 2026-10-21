@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=1400">
+<title>智慧物业 V2 · 设计系统规范</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+ background:#F2F3F5;color:#303133;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1400px;margin:0 auto;padding:0 24px 80px}
+header{background:#fff;border-bottom:1px solid #EBEEF5;padding:28px 0 24px;margin-bottom:24px}
+header .inner{max-width:1400px;margin:0 auto;padding:0 24px}
+h1{font-size:24px;font-weight:500;letter-spacing:.5px}
+.sub{color:#909399;font-size:13px;margin-top:6px}
+.tagbar{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.tag{background:#ECF5FF;color:#409EFF;border-radius:4px;padding:3px 10px;font-size:12px}
+.tag.g{background:#F0F9EB;color:#67C23A}.tag.o{background:#FDF6EC;color:#E6A23C}
+.layout{display:flex;gap:24px;align-items:flex-start}
+nav{position:sticky;top:16px;width:180px;flex:none;background:#fff;border-radius:8px;
+ padding:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+nav a{display:block;padding:7px 10px;color:#606266;text-decoration:none;font-size:13px;border-radius:4px}
+nav a:hover{background:#F5F7FA;color:#409EFF}
+nav .g{font-size:11px;color:#C0C4CC;padding:10px 10px 4px}
+main{flex:1;min-width:0}
+section{background:#fff;border-radius:8px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+h2{font-size:18px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+h2 .no{display:inline-flex;width:24px;height:24px;border-radius:6px;background:#409EFF;color:#fff;
+ font-size:12px;align-items:center;justify-content:center;font-weight:500}
+h3{font-size:14px;font-weight:500;margin:22px 0 10px;color:#303133}
+h3:first-of-type{margin-top:12px}
+p{color:#606266;font-size:13px;margin:8px 0}
+.mut{color:#909399;font-size:12px}
+.hr{height:1px;background:#EBEEF5;margin:18px 0}
+.grid{display:grid;gap:12px}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.sw{width:112px;border-radius:6px;overflow:hidden;border:1px solid #EBEEF5}
+.sw .c{height:56px}
+.sw .t{padding:6px 8px;font-size:11px;line-height:1.5}
+.sw .t b{display:block;font-weight:500;color:#303133}
+.sw .t span{color:#909399;font-family:'SF Mono',Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid #EBEEF5;padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#F5F7FA;color:#606266;font-weight:500;white-space:nowrap}
+td{color:#606266}
+tr:nth-child(even) td{background:#FAFAFA}
+.num{font-family:'SF Mono',Menlo,Consolas,monospace}
+.demo{border:1px dashed #DCDFE6;border-radius:6px;padding:16px;background:#FAFBFC}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.row:last-child{margin-bottom:0}
+/* 按钮 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:32px;padding:0 15px;
+ border-radius:6px;font-size:14px;border:1px solid #DCDFE6;background:#fff;color:#606266;cursor:default}
+.btn.pri{background:#409EFF;border-color:#409EFF;color:#fff}
+.btn.suc{background:#67C23A;border-color:#67C23A;color:#fff}
+.btn.warn{background:#E6A23C;border-color:#E6A23C;color:#fff}
+.btn.dan{background:#F56C6C;border-color:#F56C6C;color:#fff}
+.btn.txt{border-color:transparent;background:transparent;color:#409EFF;padding:0 8px}
+.btn.dtxt{color:#F56C6C}
+.btn.lg{height:40px;padding:0 20px;font-size:15px}
+.btn.sm{height:24px;padding:0 11px;font-size:12px;border-radius:4px}
+.btn[disabled]{opacity:.5}
+/* 标签 */
+.st{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:4px;font-size:12px;
+ line-height:18px;white-space:nowrap}
+.st::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+/* 输入 */
+.inp{height:32px;line-height:30px;border:1px solid #DCDFE6;border-radius:6px;padding:0 11px;font-size:14px;
+ background:#fff;color:#606266;min-width:200px}
+.inp.err{border-color:#F56C6C}
+.inp::placeholder{color:#C0C4CC}
+.lb{font-size:13px;color:#606266;white-space:nowrap}
+.lb i{color:#F56C6C;font-style:normal;margin-right:2px}
+.msg{font-size:12px;color:#F56C6C;margin-top:4px}
+/* 骨架 */
+.skel{border:1px solid #DCDFE6;border-radius:6px;background:#fff;overflow:hidden}
+.skel .top{height:56px;background:#fff;border-bottom:1px solid #EBEEF5;display:flex;align-items:center;
+ padding:0 16px;gap:12px}
+.skel .body{display:flex;height:230px}
+.skel .side{width:208px;background:#F5F7FA;border-right:1px solid #EBEEF5;padding:12px 8px}
+.skel .side div{height:32px;border-radius:4px;margin-bottom:6px;background:#fff;border:1px solid #EBEEF5}
+.skel .side div.on{background:#ECF5FF;border-color:#C6E2FF;color:#409EFF;display:flex;align-items:center;padding:0 10px;font-size:12px}
+.skel .cont{flex:1;padding:16px;background:#F2F3F5}
+.skel .cont .k{display:flex;gap:12px;margin-bottom:12px}
+.skel .cont .k div{flex:1;height:68px;background:#fff;border-radius:8px;border:1px solid #EBEEF5}
+.skel .cont .b{height:118px;background:#fff;border-radius:8px;border:1px solid #EBEEF5}
+.dim{position:relative}
+.note{background:#FDF6EC;border:1px solid #FAE1B0;border-radius:6px;padding:10px 14px;font-size:13px;color:#854F0B;margin:12px 0}
+.note b{font-weight:500}
+.ok{background:#F0F9EB;border-color:#C2E7B0;color:#3B6D11}
+pre{background:#F5F7FA;border:1px solid #EBEEF5;border-radius:6px;padding:12px 14px;overflow:auto;
+ font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12px;line-height:1.7;color:#303133}
+code{background:#F5F7FA;border-radius:3px;padding:1px 5px;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12px;color:#E6A23C}
+ul{margin:8px 0 8px 20px;color:#606266;font-size:13px}
+li{margin:4px 0}
+.kv{display:flex;gap:8px;font-size:13px;margin:6px 0}
+.kv b{flex:none;width:96px;color:#303133;font-weight:500}
+.kv span{color:#606266}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:#F4F4F5;border-radius:4px;padding:2px 8px;font-size:12px;color:#606266}
+.empty{text-align:center;padding:28px;color:#C0C4CC;font-size:13px}
+.empty .ic{width:60px;height:40px;margin:0 auto 8px;border:2px dashed #DCDFE6;border-radius:6px}
+</style></head><body>
+<header><div class="inner">
+<h1>智慧物业 V2 · 设计系统规范</h1>
+<div class="sub">约束全部页面的视觉与交互基线 · 与《页面设计稿》《功能地图与研判台》配套使用</div>
+<div class="tagbar"><span class="tag">Vue 3.4</span><span class="tag">Vite 5</span><span class="tag">Element Plus 2</span>
+<span class="tag">Vue Router 4</span><span class="tag g">ECharts 5</span><span class="tag o">2026-10-21</span></div>
+</div></header>
+<div class="wrap"><div class="layout">
+<nav><div class="g">设计规范</div><a href="#s1">1 概览与原则</a><a href="#s2">2 色彩</a><a href="#s3">3 字体</a><a href="#s4">4 间距与圆角</a><a href="#s5">5 布局骨架</a><a href="#s6">6 组件规范</a><a href="#s7">7 图表规范</a><a href="#s8">8 文案与格式</a><a href="#s9">9 交付物与接入</a></nav>
+<main><section id="s1"><h2><span class="no">1</span>概览与原则</h2>
+<p>本规范约束智慧物业 V2 全部页面的视觉与交互基线。技术栈已确定：<b>Vue 3.4 + Vite 5 + Element Plus 2 + Vue Router 4 + ECharts 5</b>。</p>
+<div class="grid" style="grid-template-columns:repeat(4,1fr);margin-top:16px">
+  <div class="demo"><b>一致</b><p class="mut">同一含义在任何页面用同一种颜色、同一种控件、同一种文案。例如「逾期」永远是 #F56C6C，不会在 A 页红、B 页橙。</p></div>
+  <div class="demo"><b>克制</b><p class="mut">一屏不超过 6 个 KPI、4 张图表。配色不超过 2 个色系。装饰性元素一律不加。</p></div>
+  <div class="demo"><b>可行动</b><p class="mut">看板上每个数字都能点击并带筛选；每张看板最后一段必须是风险清单或待办，能直接派任务。</p></div>
+  <div class="demo"><b>可扩展</b><p class="mut">所有视觉值走 Token，不写死。改一处 CSS 变量，全站生效。</p></div>
+</div>
+<h3>本规范包含</h3>
+<div class="chips">
+ <span class="chip">色彩（品牌 / 语义 / 业务状态 / 图表色序）</span><span class="chip">字形与字号阶梯</span>
+ <span class="chip">间距与圆角</span><span class="chip">布局骨架与页面结构</span><span class="chip">8 类组件规范</span>
+ <span class="chip">ECharts 配置基线</span><span class="chip">文案与数字格式</span><span class="chip">接入方式</span>
+</div>
+<div class="hr"></div>
+<h3>三条硬约束（违反会导致返工）</h3>
+<ul>
+<li><b>禁止在页面里硬编码颜色</b>：一律用 CSS 变量或 <code>tokens.css</code> 中定义的语义变量；图表颜色走 <code>echarts-theme.js</code>。</li>
+<li><b>禁止为了「好看」引入新组件库</b>：Element Plus 2 已有的组件不得替换；确实缺失的先提申请再引入。</li>
+<li><b>禁止按页面写样式</b>：所有可复用的视觉模式必须先抽成组件，再在页面里引用。</li>
+</ul>
+</section><section id="s2"><h2><span class="no">2</span>色彩</h2>
+<h3>品牌主色</h3><div class="swatches"><div class="sw"><div class="c" style="background:#409EFF"></div><div class="t"><b>Primary 主色</b><span>#409EFF</span></div></div><div class="sw"><div class="c" style="background:#79BBFF"></div><div class="t"><b>Light-3 悬停</b><span>#79BBFF</span></div></div><div class="sw"><div class="c" style="background:#A0CFFF"></div><div class="t"><b>Light-5</b><span>#A0CFFF</span></div></div><div class="sw"><div class="c" style="background:#C6E2FF"></div><div class="t"><b>Light-7 选中</b><span>#C6E2FF</span></div></div><div class="sw"><div class="c" style="background:#D9ECFF"></div><div class="t"><b>Light-8</b><span>#D9ECFF</span></div></div><div class="sw"><div class="c" style="background:#ECF5FF"></div><div class="t"><b>Light-9 背景</b><span>#ECF5FF</span></div></div><div class="sw"><div class="c" style="background:#337ECC"></div><div class="t"><b>Dark-2 按下</b><span>#337ECC</span></div></div></div>
+<div class="note"><b>为什么沿用 #409EFF：</b>Element Plus 2 默认主色。生态一致意味着第三方组件、图表主题、打印样式都不用额外适配。若要品牌化，只需替换 <code>--el-color-primary</code> 及其 6 个 light 梯度 + 1 个 dark，全站自动跟随。</div>
+<h3>语义色</h3><div class="swatches"><div class="sw"><div class="c" style="background:#67C23A"></div><div class="t"><b>Success 成功</b><span>#67C23A</span></div></div><div class="sw"><div class="c" style="background:#E6A23C"></div><div class="t"><b>Warning 警告</b><span>#E6A23C</span></div></div><div class="sw"><div class="c" style="background:#F56C6C"></div><div class="t"><b>Danger 危险</b><span>#F56C6C</span></div></div><div class="sw"><div class="c" style="background:#909399"></div><div class="t"><b>Info 信息</b><span>#909399</span></div></div></div>
+<h3>文字、边框与填充</h3><div class="swatches"><div class="sw"><div class="c" style="background:#303133"></div><div class="t"><b>主要文字</b><span>#303133</span></div></div><div class="sw"><div class="c" style="background:#606266"></div><div class="t"><b>常规文字</b><span>#606266</span></div></div><div class="sw"><div class="c" style="background:#909399"></div><div class="t"><b>次要文字</b><span>#909399</span></div></div><div class="sw"><div class="c" style="background:#C0C4CC"></div><div class="t"><b>占位/禁用</b><span>#C0C4CC</span></div></div><div class="sw"><div class="c" style="background:#DCDFE6"></div><div class="t"><b>边框</b><span>#DCDFE6</span></div></div><div class="sw"><div class="c" style="background:#EBEEF5"></div><div class="t"><b>分割线</b><span>#EBEEF5</span></div></div><div class="sw"><div class="c" style="background:#F5F7FA"></div><div class="t"><b>表头/填充</b><span>#F5F7FA</span></div></div></div>
+<div class="hr"></div>
+<h2 style="font-size:16px;margin-bottom:8px">业务状态色（Element Plus 没有，物业特有）</h2>
+<h3>房屋使用状态</h3><div class="swatches"><div class="sw"><div class="c" style="background:#409EFF"></div><div class="t"><b>自住</b><span>house-self</span></div></div><div class="sw"><div class="c" style="background:#67C23A"></div><div class="t"><b>出租</b><span>house-rent</span></div></div><div class="sw"><div class="c" style="background:#E6A23C"></div><div class="t"><b>空置</b><span>house-vacant</span></div></div><div class="sw"><div class="c" style="background:#909399"></div><div class="t"><b>装修中</b><span>house-decorating</span></div></div><div class="sw"><div class="c" style="background:#F56C6C"></div><div class="t"><b>限制使用</b><span>house-locked</span></div></div></div><h3>账单状态</h3><div class="swatches"><div class="sw"><div class="c" style="background:#67C23A"></div><div class="t"><b>已缴</b><span>bill-paid</span></div></div><div class="sw"><div class="c" style="background:#E6A23C"></div><div class="t"><b>未缴</b><span>bill-unpaid</span></div></div><div class="sw"><div class="c" style="background:#409EFF"></div><div class="t"><b>部分缴</b><span>bill-partial</span></div></div><div class="sw"><div class="c" style="background:#F56C6C"></div><div class="t"><b>逾期</b><span>bill-overdue</span></div></div><div class="sw"><div class="c" style="background:#909399"></div><div class="t"><b>已减免</b><span>bill-reduced</span></div></div><div class="sw"><div class="c" style="background:#C0C4CC"></div><div class="t"><b>已作废</b><span>bill-void</span></div></div></div><h3>工单状态</h3><div class="swatches"><div class="sw"><div class="c" style="background:#F56C6C"></div><div class="t"><b>待派单</b><span>wo-waiting</span></div></div><div class="sw"><div class="c" style="background:#E6A23C"></div><div class="t"><b>已派单</b><span>wo-assigned</span></div></div><div class="sw"><div class="c" style="background:#409EFF"></div><div class="t"><b>处理中</b><span>wo-processing</span></div></div><div class="sw"><div class="c" style="background:#8A63F2"></div><div class="t"><b>待确认</b><span>wo-confirming</span></div></div><div class="sw"><div class="c" style="background:#67C23A"></div><div class="t"><b>已完工</b><span>wo-done</span></div></div><div class="sw"><div class="c" style="background:#909399"></div><div class="t"><b>已关闭</b><span>wo-closed</span></div></div><div class="sw"><div class="c" style="background:#C0C4CC"></div><div class="t"><b>已取消</b><span>wo-canceled</span></div></div></div><h3>巡检状态</h3><div class="swatches"><div class="sw"><div class="c" style="background:#909399"></div><div class="t"><b>待执行</b><span>ins-todo</span></div></div><div class="sw"><div class="c" style="background:#409EFF"></div><div class="t"><b>执行中</b><span>ins-doing</span></div></div><div class="sw"><div class="c" style="background:#67C23A"></div><div class="t"><b>已完成</b><span>ins-done</span></div></div><div class="sw"><div class="c" style="background:#F56C6C"></div><div class="t"><b>逾期</b><span>ins-overdue</span></div></div><div class="sw"><div class="c" style="background:#E6A23C"></div><div class="t"><b>已转工单</b><span>ins-towo</span></div></div></div><h3>设备状态</h3><div class="swatches"><div class="sw"><div class="c" style="background:#67C23A"></div><div class="t"><b>在线</b><span>dev-online</span></div></div><div class="sw"><div class="c" style="background:#C0C4CC"></div><div class="t"><b>离线</b><span>dev-offline</span></div></div><div class="sw"><div class="c" style="background:#E6A23C"></div><div class="t"><b>告警</b><span>dev-alarm</span></div></div><div class="sw"><div class="c" style="background:#F56C6C"></div><div class="t"><b>故障</b><span>dev-fault</span></div></div><div class="sw"><div class="c" style="background:#409EFF"></div><div class="t"><b>维保中</b><span>dev-maintain</span></div></div></div><h3>告警等级</h3><div class="swatches"><div class="sw"><div class="c" style="background:#F56C6C"></div><div class="t"><b>紧急</b><span>alarm-urgent</span></div></div><div class="sw"><div class="c" style="background:#E6A23C"></div><div class="t"><b>重要</b><span>alarm-major</span></div></div><div class="sw"><div class="c" style="background:#409EFF"></div><div class="t"><b>一般</b><span>alarm-minor</span></div></div><div class="sw"><div class="c" style="background:#909399"></div><div class="t"><b>提示</b><span>alarm-tip</span></div></div></div>
+<p class="mut">用法：状态标签 = light-9 底 + dark-2 字 + 6px 圆点前缀，统一封装为 <code>&lt;StatusTag&gt;</code> 组件，禁止每页自己写颜色。</p>
+%s
+<div class="note"><b>指标语义色约定：</b>达标 / 向好 = 绿 <span style="color:#67C23A">#67C23A</span>，未达标 / 恶化 = 红 <span style="color:#F56C6C">#F56C6C</span>，持平 = 灰。<b>这里不适用「红涨绿跌」</b>——那是金融行情约定，物业是运营指标，收缴率上升是好事，必须显示为绿色。</div>
+<h3>图表色序（顺序固定，不随数据变化）</h3>
+<div class="swatches"><div class="sw"><div class="c" style="background:#409EFF"></div><div class="t"><b>C1</b><span>#409EFF</span></div></div><div class="sw"><div class="c" style="background:#67C23A"></div><div class="t"><b>C2</b><span>#67C23A</span></div></div><div class="sw"><div class="c" style="background:#E6A23C"></div><div class="t"><b>C3</b><span>#E6A23C</span></div></div><div class="sw"><div class="c" style="background:#F56C6C"></div><div class="t"><b>C4</b><span>#F56C6C</span></div></div><div class="sw"><div class="c" style="background:#8A63F2"></div><div class="t"><b>C5</b><span>#8A63F2</span></div></div><div class="sw"><div class="c" style="background:#00C4C4"></div><div class="t"><b>C6</b><span>#00C4C4</span></div></div><div class="sw"><div class="c" style="background:#FF8B3D"></div><div class="t"><b>C7</b><span>#FF8B3D</span></div></div><div class="sw"><div class="c" style="background:#A0A5B0"></div><div class="t"><b>C8</b><span>#A0A5B0</span></div></div></div>
+<p class="mut">与 <code>echarts-theme.js</code> 的 <code>palette</code> 完全一致。超过 8 个系列时请改用堆叠或分组，不要再加颜色。</p>
+</section><section id="s3"><h2><span class="no">3</span>字体</h2>
+<table><thead><tr><th>示例</th><th>字号</th><th>字重</th><th>用途</th></tr></thead><tbody><tr><td style="font-size:20px;font-weight:500">智慧物业 · AaBbCc 123</td><td class="num">20px</td><td>font-weight:500</td><td>页面标题</td></tr><tr><td style="font-size:18px;font-weight:500">智慧物业 · AaBbCc 123</td><td class="num">18px</td><td>font-weight:500</td><td>区块标题</td></tr><tr><td style="font-size:16px;font-weight:500">智慧物业 · AaBbCc 123</td><td class="num">16px</td><td>font-weight:500</td><td>卡片标题</td></tr><tr><td style="font-size:14px;font-weight:400">智慧物业 · AaBbCc 123</td><td class="num">14px</td><td>font-weight:400</td><td>正文 / 表格 / 表单</td></tr><tr><td style="font-size:13px;font-weight:400">智慧物业 · AaBbCc 123</td><td class="num">13px</td><td>font-weight:400</td><td>辅助说明</td></tr><tr><td style="font-size:12px;font-weight:400">智慧物业 · AaBbCc 123</td><td class="num">12px</td><td>font-weight:400</td><td>标签 / 时间戳</td></tr></tbody></table>
+<div class="hr"></div>
+<div class="kv"><b>字族</b><span><code>-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif</code></span></div>
+<div class="kv"><b>行高</b><span>正文 1.6；表格 1.5；标题 1.4</span></div>
+<div class="kv"><b>数字</b><span>金额、面积、编号一律用等宽字体并开启 <code>tabular-nums</code>，表格翻页时不跳动</span></div>
+<div class="kv"><b>字重</b><span>只允许 400 与 500 两级，禁止 600/700/bold</span></div>
+<div class="note"><b>为什么禁止 600/700：</b>中文粗体在小字号下会糊成一团，且 Element Plus 组件内部只用 500。页面里出现 700 会与组件格格不入。</div>
+</section><section id="s4"><h2><span class="no">4</span>间距与圆角</h2>
+<h3>间距（4 基准）</h3>
+<div class="row" style="align-items:flex-end"><div style="text-align:center"><div style="width:4px;height:4px;background:#409EFF;border-radius:3px"></div><div style="font-size:11px;color:#909399;margin-top:4px">--sp-1</div></div><div style="text-align:center"><div style="width:8px;height:8px;background:#409EFF;border-radius:3px"></div><div style="font-size:11px;color:#909399;margin-top:4px">--sp-2</div></div><div style="text-align:center"><div style="width:12px;height:12px;background:#409EFF;border-radius:3px"></div><div style="font-size:11px;color:#909399;margin-top:4px">--sp-3</div></div><div style="text-align:center"><div style="width:16px;height:16px;background:#409EFF;border-radius:3px"></div><div style="font-size:11px;color:#909399;margin-top:4px">--sp-4</div></div><div style="text-align:center"><div style="width:20px;height:20px;background:#409EFF;border-radius:3px"></div><div style="font-size:11px;color:#909399;margin-top:4px">--sp-5</div></div><div style="text-align:center"><div style="width:24px;height:24px;background:#409EFF;border-radius:3px"></div><div style="font-size:11px;color:#909399;margin-top:4px">--sp-6</div></div><div style="text-align:center"><div style="width:32px;height:32px;background:#409EFF;border-radius:3px"></div><div style="font-size:11px;color:#909399;margin-top:4px">--sp-8</div></div></div>
+<p class="mut">卡片内边距 20px；卡片间距 16px；表单项间距 16px（紧凑 12px）；表格工具栏与表格之间 16px。</p>
+<div class="hr"></div>
+<h3>圆角</h3>
+<div class="row">
+  <div style="width:88px;height:56px;background:#ECF5FF;border:1px solid #409EFF;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#409EFF">4px 标签</div>
+  <div style="width:88px;height:56px;background:#ECF5FF;border:1px solid #409EFF;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#409EFF">6px 控件</div>
+  <div style="width:88px;height:56px;background:#ECF5FF;border:1px solid #409EFF;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#409EFF">8px 卡片</div>
+  <div style="width:88px;height:56px;background:#ECF5FF;border:1px solid #409EFF;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#409EFF">20px 圆角按钮</div>
+</div>
+<div class="note">Element Plus 默认 <code>--el-border-radius-base</code> 是 4px，本规范覆盖为 <b>6px</b>，卡片单独用 8px —— 控件与容器之间有层级差，视觉更清楚。</div>
+<h3>阴影</h3>
+<div class="row">
+  <div style="width:120px;height:64px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;font-size:12px">卡片 0 1px 3px</div>
+  <div style="width:120px;height:64px;background:#fff;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.10);display:flex;align-items:center;justify-content:center;font-size:12px">浮层 0 4px 16px</div>
+</div>
+<p class="mut">只保留这两级。禁止彩色阴影、发光、模糊背景。</p>
+</section><section id="s5"><h2><span class="no">5</span>布局骨架</h2>
+<div class="skel">
+  <div class="top"><div style="width:22px;height:22px;background:#409EFF;border-radius:4px"></div>
+    <div style="font-size:13px;color:#303133;font-weight:500">嘉合物业 · 智慧物业平台</div>
+    <div style="flex:1"></div><div style="font-size:12px;color:#909399">翡翠城 ▾</div>
+    <div style="width:26px;height:26px;background:#C0C4CC;border-radius:50%"></div></div>
+  <div class="body">
+    <div class="side">
+      <div class="on">工作台</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+    </div>
+    <div class="cont">
+      <div style="font-size:13px;color:#909399;margin-bottom:10px">首页 / 资产 / 房产档案</div>
+      <div class="k"><div></div><div></div><div></div><div></div></div>
+      <div class="b"></div>
+    </div>
+  </div>
+</div>
+<div class="hr"></div>
+<table><thead><tr><th>区域</th><th>尺寸</th><th>说明</th></tr></thead><tbody>
+<tr><td>侧边菜单</td><td class="num">208px / 收起 64px</td><td>二级菜单最多展开两级，三级用页内 Tab</td></tr>
+<tr><td>顶栏</td><td class="num">56px</td><td>左侧项目切换器，右侧搜索、消息、头像</td></tr>
+<tr><td>面包屑</td><td class="num">40px</td><td>可选；详情页必须保留，列表页可省</td></tr>
+<tr><td>内容区内边距</td><td class="num">20px</td><td>≤1366 宽时降为 16px</td></tr>
+<tr><td>卡片间距</td><td class="num">16px</td><td>同层卡片之间</td></tr>
+<tr><td>最小宽度</td><td class="num">1280px</td><td>低于此值横向滚动，本版不做响应式与移动端</td></tr>
+</tbody></table>
+<h3>页面四段式结构（列表页通用）</h3>
+<table><thead><tr><th>区块</th><th>内容</th><th>规则</th></tr></thead><tbody>
+<tr><td>① 筛选区</td><td>项目 / 时间 / 状态 + 关键词</td><td>最多 5 个筛选项，超出收进「更多筛选」；默认带时间范围</td></tr>
+<tr><td>② 工具栏</td><td>新增、导入、导出、批量操作</td><td>主操作在左最多 2 个；危险操作（删除）用文本按钮放最右</td></tr>
+<tr><td>③ 表格</td><td>数据列表</td><td>行高 48px（密集模式 40px）；操作列固定右侧，最多 3 个操作</td></tr>
+<tr><td>④ 分页</td><td>total / sizes / pager / jumper</td><td>默认 20 条；可选 10 / 20 / 50 / 100</td></tr>
+</tbody></table>
+<div class="note"><b>看板页额外一条：</b>每张看板固定「KPI 行 → 图表区 → 清单区」三段，清单区必须是<b>风险清单或待办</b>，每条可点击下钻并派任务。只有图表没有出口的看板不予通过评审。</div>
+</section><section id="s6"><h2><span class="no">6</span>组件规范</h2>
+<h3>按钮</h3>
+<div class="demo">
+  <div class="row"><span class="btn pri">主要按钮</span><span class="btn">次要按钮</span>
+    <span class="btn" style="border-style:dashed">朴素按钮</span><span class="btn txt">文字按钮</span>
+    <span class="btn dan">危险按钮</span><span class="btn" disabled>禁用</span></div>
+  <div class="row"><span class="btn pri lg">大号 40px</span><span class="btn pri">默认 32px</span><span class="btn pri sm">小号 24px</span></div>
+  <div class="row"><span class="btn txt dtxt">删除</span><span class="mut">删除类操作一律用危险文字按钮，不放主按钮位</span></div>
+</div>
+<table style="margin-top:10px"><thead><tr><th>场景</th><th>用法</th></tr></thead><tbody>
+<tr><td>弹窗底部</td><td>「取消」在左、「确定」在右，间距 12px，均用默认尺寸</td></tr>
+<tr><td>页面主操作</td><td>每页最多 1 个主要按钮（新增 / 提交 / 下一步）</td></tr>
+<tr><td>表格操作列</td><td>全部文字按钮，最多 3 个，超出收进「更多」下拉</td></tr>
+<tr><td>批量操作</td><td>选中后出现批量条，不用弹窗</td></tr>
+</tbody></table>
+
+<h3>状态标签 StatusTag</h3>
+<div class="demo"><div class="row">
+<span class="st" style="background:#F0F9EB;color:#67C23A">已缴</span><span class="st" style="background:#FDF6EC;color:#E6A23C">未缴</span><span class="st" style="background:#ECF5FF;color:#409EFF">部分缴</span><span class="st" style="background:#FEF0F0;color:#F56C6C">逾期</span><span class="st" style="background:#F4F4F5;color:#909399">已减免</span><span class="st" style="background:#FEF0F0;color:#F56C6C">待派单</span><span class="st" style="background:#ECF5FF;color:#409EFF">处理中</span><span class="st" style="background:#F0F9EB;color:#67C23A">已完成</span><span class="st" style="background:#F4F4F5;color:#909399">待执行</span><span class="st" style="background:#FEF0F0;color:#F56C6C">故障</span><span class="st" style="background:#FDF6EC;color:#E6A23C">告警</span>
+</div></div>
+<p class="mut">统一封装：<code>&lt;StatusTag type="bill" value="逾期" /&gt;</code>。组件内部查色表，页面不得传颜色。</p>
+
+<h3>表格</h3>
+<div class="demo">
+<table style="margin:0"><thead><tr><th style="width:150px">房屋</th><th>业主</th><th style="width:90px">面积</th>
+<th style="width:110px">使用状态</th><th style="width:110px">本期账单</th><th style="width:120px">操作</th></tr></thead><tbody>
+<tr><td>翡翠城 1栋1单元0501</td><td>张建国</td><td class="num">108.62 ㎡</td>
+<td><span class="st" style="background:#ECF5FF;color:#409EFF">自住</span></td><td class="num">¥ 304.14</td>
+<td><span class="btn txt" style="height:24px;padding:0 6px">详情</span><span class="btn txt" style="height:24px;padding:0 6px">账单</span></td></tr>
+<tr><td>翡翠城 2栋1单元0302</td><td>李秀兰</td><td class="num">96.40 ㎡</td>
+<td><span class="st" style="background:#FDF6EC;color:#E6A23C">空置</span></td><td class="num">¥ 269.92</td>
+<td><span class="btn txt" style="height:24px;padding:0 6px">详情</span><span class="btn txt" style="height:24px;padding:0 6px">账单</span></td></tr>
+<tr><td>星光天地 1栋1单元0205</td><td>赵春梅</td><td class="num">168.00 ㎡</td>
+<td><span class="st" style="background:#F0F9EB;color:#67C23A">出租</span></td><td class="num">¥ 1,428.00</td>
+<td><span class="btn txt" style="height:24px;padding:0 6px">详情</span><span class="btn txt" style="height:24px;padding:0 6px">账单</span></td></tr>
+</tbody></table></div>
+<table style="margin-top:10px"><thead><tr><th>项</th><th>规则</th></tr></thead><tbody>
+<tr><td>行高</td><td>48px；密集模式（配置页、弹窗内）40px</td></tr>
+<tr><td>表头</td><td>背景 #F5F7FA，13px，色 #606266，不加粗</td></tr>
+<tr><td>斑马纹</td><td>关闭；用 hover 高亮 #F5F7FA 代替</td></tr>
+<tr><td>金额 / 面积</td><td>右对齐 + 等宽数字</td></tr>
+<tr><td>操作列</td><td>固定右侧 <code>fixed="right"</code>，宽度按按钮数 80~140px</td></tr>
+<tr><td>空态</td><td>见下方，必须带引导动作</td></tr>
+</tbody></table>
+
+<h3>表单</h3>
+<div class="demo">
+  <div class="row"><span class="lb" style="width:96px;text-align:right"><i>*</i>业主姓名</span>
+    <span class="inp">张建国</span></div>
+  <div class="row"><span class="lb" style="width:96px;text-align:right"><i>*</i>联系电话</span>
+    <span class="inp err">1380013</span><span class="msg" style="margin:0">请输入 11 位手机号</span></div>
+  <div class="row"><span class="lb" style="width:96px;text-align:right">备注</span>
+    <span class="inp" style="min-width:420px;height:64px;display:inline-block;padding:8px 11px;color:#C0C4CC">选填，最多 200 字</span></div>
+</div>
+<table style="margin-top:10px"><thead><tr><th>项</th><th>规则</th></tr></thead><tbody>
+<tr><td>标签宽度</td><td>页面表单 120px 右对齐；弹窗表单 96px；筛选区用 inline 自适应</td></tr>
+<tr><td>必填</td><td>红色星号在标签<b>前</b>；校验提示在输入框下方，12px #F56C6C</td></tr>
+<tr><td>校验时机</td><td>失焦时校验，提交时全量校验并滚动到第一个错误项</td></tr>
+<tr><td>分组</td><td>超过 12 个字段必须分组（用 el-collapse 或 Tab），禁止一屏长表单</td></tr>
+<tr><td>提交中</td><td>按钮进入 loading，禁止重复提交；成功用 Message，失败用 Message + 字段级提示</td></tr>
+</tbody></table>
+
+<h3>弹窗与抽屉</h3>
+<table><thead><tr><th>类型</th><th>宽度</th><th>用途</th></tr></thead><tbody>
+<tr><td>Dialog 小</td><td class="num">480px</td><td>确认、单字段填写</td></tr>
+<tr><td>Dialog 中</td><td class="num">640px</td><td>标准新增 / 编辑表单</td></tr>
+<tr><td>Dialog 大</td><td class="num">880px</td><td>多分组表单、收银台结算</td></tr>
+<tr><td>Drawer 小</td><td class="num">480px</td><td>详情查看</td></tr>
+<tr><td>Drawer 中</td><td class="num">720px</td><td>详情 + 子表 + 时间轴</td></tr>
+</tbody></table>
+<p class="mut">弹窗底部按钮区固定，内容区超高时内部滚动。禁止嵌套弹窗（超过两层必须改为分步或抽屉）。</p>
+
+<h3>分页</h3>
+<div class="demo"><div class="row" style="justify-content:flex-end">
+  <span class="mut">共 736 条</span>
+  <span class="btn sm">10 条/页 ▾</span>
+  <span class="btn sm">‹</span><span class="btn sm pri">1</span><span class="btn sm">2</span>
+  <span class="btn sm">3</span><span class="btn sm">…</span><span class="btn sm">37</span><span class="btn sm">›</span>
+</div></div>
+
+<h3>空态 / 加载 / 错误</h3>
+<div class="row" style="align-items:stretch">
+  <div style="flex:1;border:1px solid #EBEEF5;border-radius:6px"><div class="empty"><div class="ic"></div>暂无数据<br>
+    <span class="btn txt" style="margin-top:8px">去创建第一条收费项目</span></div></div>
+  <div style="flex:1;border:1px solid #EBEEF5;border-radius:6px;padding:16px">
+    <div style="height:12px;background:#F5F7FA;border-radius:4px;margin-bottom:8px"></div>
+    <div style="height:12px;background:#F5F7FA;border-radius:4px;width:70%;margin-bottom:8px"></div>
+    <div style="height:12px;background:#F5F7FA;border-radius:4px;width:45%"></div>
+    <div class="mut" style="margin-top:8px">骨架屏，非 spinner</div></div>
+  <div style="flex:1;border:1px solid #FDE2E2;border-radius:6px;padding:16px;background:#FEF0F0">
+    <div style="color:#F56C6C;font-size:13px">数据加载失败</div>
+    <div class="mut" style="margin:6px 0 8px">接口超时（10s）</div>
+    <span class="btn sm">重试</span></div>
+</div>
+<div class="note">空态必须带<b>引导动作</b>（去创建 / 下载模板 / 去绑定），不能只写「暂无数据」。加载用骨架屏不用 spinner。错误态必须给「重试」。</div>
+
+<h3>消息反馈</h3>
+<table><thead><tr><th>类型</th><th>时长</th><th>用途</th></tr></thead><tbody>
+<tr><td>Message 成功</td><td class="num">3s</td><td>保存、提交、收款成功</td></tr>
+<tr><td>Message 警告 / 错误</td><td class="num">4.5s</td><td>校验失败、接口错误（可手动关闭）</td></tr>
+<tr><td>Notification</td><td class="num">4.5s</td><td>异步任务结果、告警推送</td></tr>
+<tr><td>MessageBox</td><td>—</td><td>删除、停用、批量操作前二次确认，必须写明后果</td></tr>
+</tbody></table>
+</section><section id="s7"><h2><span class="no">7</span>图表规范</h2>
+<p>所有图表通过 <code>echarts.init(el, 'wy')</code> 初始化，主题见 <code>echarts-theme.js</code>。页面内<b>禁止</b>硬编码颜色、字号、网格间距。</p>
+<div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
+  <div class="demo"><div class="mut" style="margin-bottom:6px">折线图 · 趋势（近 7 日工单量）</div><svg viewBox="0 0 300 110" width="100%" height="110"><line x1="0" y1="86.0" x2="300" y2="86.0" stroke="#EBEEF5"/><line x1="0" y1="62.0" x2="300" y2="62.0" stroke="#EBEEF5"/><line x1="0" y1="38.0" x2="300" y2="38.0" stroke="#EBEEF5"/><line x1="0" y1="14.0" x2="300" y2="14.0" stroke="#EBEEF5"/><polyline points="0.0,75.1 50.0,57.6 100.0,70.7 150.0,44.5 200.0,62.0 250.0,35.8 300.0,48.9" fill="none" stroke="#409EFF" stroke-width="2"/><circle cx="0.0" cy="75.1" r="3" fill="#fff" stroke="#409EFF" stroke-width="2"/><circle cx="50.0" cy="57.6" r="3" fill="#fff" stroke="#409EFF" stroke-width="2"/><circle cx="100.0" cy="70.7" r="3" fill="#fff" stroke="#409EFF" stroke-width="2"/><circle cx="150.0" cy="44.5" r="3" fill="#fff" stroke="#409EFF" stroke-width="2"/><circle cx="200.0" cy="62.0" r="3" fill="#fff" stroke="#409EFF" stroke-width="2"/><circle cx="250.0" cy="35.8" r="3" fill="#fff" stroke="#409EFF" stroke-width="2"/><circle cx="300.0" cy="48.9" r="3" fill="#fff" stroke="#409EFF" stroke-width="2"/></svg></div>
+  <div class="demo"><div class="mut" style="margin-bottom:6px">柱状图 · 对比（子系统在线率 %）</div><svg viewBox="0 0 300 110" width="100%" height="110"><line x1="0" y1="96" x2="300" y2="96" stroke="#DCDFE6"/><rect x="4.0" y="11.0" width="34.9" height="85.0" rx="3" fill="#E6A23C"/><text x="21.4" y="107" font-size="8" fill="#909399" text-anchor="middle">门禁</text><rect x="46.9" y="6.0" width="34.9" height="90.0" rx="3" fill="#67C23A"/><text x="64.3" y="107" font-size="8" fill="#909399" text-anchor="middle">车场</text><rect x="89.7" y="12.9" width="34.9" height="83.1" rx="3" fill="#E6A23C"/><text x="107.1" y="107" font-size="8" fill="#909399" text-anchor="middle">视频</text><rect x="132.6" y="6.0" width="34.9" height="90.0" rx="3" fill="#67C23A"/><text x="150.0" y="107" font-size="8" fill="#909399" text-anchor="middle">电梯</text><rect x="175.4" y="9.0" width="34.9" height="87.0" rx="3" fill="#67C23A"/><text x="192.9" y="107" font-size="8" fill="#909399" text-anchor="middle">消防</text><rect x="218.3" y="16.0" width="34.9" height="80.0" rx="3" fill="#E6A23C"/><text x="235.7" y="107" font-size="8" fill="#909399" text-anchor="middle">能耗</text><rect x="261.1" y="24.0" width="34.9" height="72.0" rx="3" fill="#F56C6C"/><text x="278.6" y="107" font-size="8" fill="#909399" text-anchor="middle">环境</text></svg></div>
+  <div class="demo"><div class="mut" style="margin-bottom:6px">环形图 · 构成（资产构成，中心放总数）</div><svg viewBox="0 0 300 124" width="100%" height="124"><path d="M80.0 -6.0 A68 68 0 1 1 21.9 26.7 L42.4 39.1 A44 44 0 1 0 80.0 18.0 Z" fill="#409EFF" stroke="#fff" stroke-width="2"/><path d="M21.9 26.7 A68 68 0 0 1 80.0 -6.0 L80.0 18.0 A44 44 0 0 0 42.4 39.1 Z" fill="#67C23A" stroke="#fff" stroke-width="2"/><text x="80" y="58" font-size="15" font-weight="500" fill="#303133" text-anchor="middle">736</text><text x="80" y="74" font-size="9" fill="#909399" text-anchor="middle">房屋总数</text><text x="170" y="34" font-size="10" fill="#606266">住宅 616 · 83.7%</text><text x="170" y="52" font-size="10" fill="#606266">商业 120 · 16.3%</text></svg></div>
+  <div class="demo"><div class="mut" style="margin-bottom:6px">仪表盘 · 完成度（比率型指标）</div><svg viewBox="0 0 180 108" width="100%" height="108"><path d="M28.0 86.0 A62 62 0 0 1 152.0 86.0" fill="none" stroke="#EBEEF5" stroke-width="10" stroke-linecap="round"/><path d="M28.0 86.0 A62 62 0 0 1 117.6 30.5" fill="none" stroke="#409EFF" stroke-width="10" stroke-linecap="round"/><text x="90" y="80" font-size="26" font-weight="500" fill="#303133" text-anchor="middle">64.7</text><text x="124" y="72" font-size="10" fill="#909399" text-anchor="middle">%</text><text x="90" y="100" font-size="11" fill="#909399" text-anchor="middle">本期收缴率</text></svg></div>
+</div>
+<div class="hr"></div>
+<h3>图表选型</h3>
+<table><thead><tr><th>要表达什么</th><th>用什么</th><th>禁止</th></tr></thead><tbody>
+<tr><td>随时间变化</td><td>折线图（≤7 系列）；时间轴固定 5~12 个点</td><td>超过 12 个点用折线堆叠成一片</td></tr>
+<tr><td>同类项对比</td><td>横向条形图（名称长时）或柱状图</td><td>用饼图表达对比</td></tr>
+<tr><td>占比构成</td><td>环形图，中心放总数，≤5 段</td><td>超过 5 段（其余归「其他」）</td></tr>
+<tr><td>单个完成度</td><td>仪表盘 / 进度条</td><td>用数字卡片却不给目标值</td></tr>
+<tr><td>两个量的关系</td><td>散点图</td><td>双 Y 轴（极易误读，确需时必须左右轴都标注单位）</td></tr>
+<tr><td>空间分布</td><td>热力图（楼栋 × 楼层）</td><td>用表格填色代替</td></tr>
+<tr><td>流程转化</td><td>漏斗图（招聘、派单转化）</td><td>用多个数字卡片摆一排</td></tr>
+</tbody></table>
+<h3>通用配置</h3>
+<table><thead><tr><th>项</th><th>规则</th></tr></thead><tbody>
+<tr><td>标题</td><td>写在卡片 H3 上，不用 ECharts 自带 title（避免两套字体）</td></tr>
+<tr><td>图例</td><td>顶部右侧；单系列时隐藏图例</td></tr>
+<tr><td>网格</td><td>containLabel: true，left/right 8px，top 32px</td></tr>
+<tr><td>坐标轴</td><td>值轴隐藏轴线只留分割线；类目轴隐藏刻度只留轴线</td></tr>
+<tr><td>单位</td><td>写在 Y 轴 name 或 tooltip 后缀，不写进系列名</td></tr>
+<tr><td>Tooltip</td><td>白底 + 1px #EBEEF5 边 + 轻阴影，圆角 6px</td></tr>
+<tr><td>热力色阶</td><td>用 <code>heatColor()</code> 固定分段，<b>不按当期最大最小值自适应</b>，否则跨月不可比</td></tr>
+<tr><td>空数据</td><td>图表区用 <code>el-empty</code> 覆盖，不在图上写「暂无数据」</td></tr>
+<tr><td>响应式</td><td>容器 resize 时 <code>chart.resize()</code>；卡片销毁时 <code>dispose()</code></td></tr>
+</tbody></table>
+<div class="note"><b>最容易出错的一条：</b>门禁统计是<b>人次</b>、车场统计是<b>车次</b>，二者量纲不同，<b>不能相加</b>成「今日通行 X 次」。同理，空置率的分母不含车位与配套用房。</div>
+</section><section id="s8"><h2><span class="no">8</span>文案与格式</h2>
+<table><thead><tr><th>类型</th><th>格式</th><th>示例</th></tr></thead><tbody>
+<tr><td>金额</td><td>¥ + 千分位 + 2 位小数；表格右对齐等宽</td><td class="num">¥ 1,428.00</td></tr>
+<tr><td>面积</td><td>2 位小数 + 空格 + ㎡</td><td class="num">108.62 ㎡</td></tr>
+<tr><td>百分比</td><td>1 位小数 + %；比率型指标必带目标值</td><td class="num">64.7% <span class="mut">/ 目标 90%</span></td></tr>
+<tr><td>日期</td><td>YYYY-MM-DD</td><td class="num">2026-10-21</td></tr>
+<tr><td>日期时间</td><td>YYYY-MM-DD HH:mm</td><td class="num">2026-10-21 09:12</td></tr>
+<tr><td>相对时间</td><td>列表用「3 小时前」，详情用绝对时间</td><td>3 小时前</td></tr>
+<tr><td>手机</td><td>列表默认脱敏，详情需二次验证</td><td class="num">138****8001</td></tr>
+<tr><td>身份证</td><td>默认脱敏，导出需审批并留痕</td><td class="num">5101**********1234</td></tr>
+<tr><td>车牌</td><td>省份+字母·5 位</td><td class="num">川A·8K23P</td></tr>
+<tr><td>时长</td><td>分钟 / 小时 / 天，超过 1 天换算为天</td><td>2.5 小时 · 3 天</td></tr>
+</tbody></table>
+<div class="hr"></div>
+<h3>按钮与提示文案</h3>
+<table><thead><tr><th>场景</th><th>标准文案</th></tr></thead><tbody>
+<tr><td>新增</td><td>新增 / 新增收费项目（带宾语，不要只写「新增」）</td></tr>
+<tr><td>删除确认</td><td>确定删除「物业服务费」吗？删除后不可恢复，已生成的 1,284 条账单不受影响。</td></tr>
+<tr><td>停用确认</td><td>停用后该收费项目不再参与计费，历史账单保留。</td></tr>
+<tr><td>提交成功</td><td>已保存 / 已提交，等待 XX 审批</td></tr>
+<tr><td>空态</td><td>暂无数据 → 去创建第一条收费项目</td></tr>
+<tr><td>权限不足</td><td>你没有该项目的数据权限，请联系管理员</td></tr>
+<tr><td>接口失败</td><td>加载失败（接口超时），重试 / 联系管理员</td></tr>
+</tbody></table>
+<div class="note"><b>个人信息三原则：</b>① 列表默认脱敏 ② 查看完整需二次验证并写日志 ③ 导出需审批。这是《个人信息保护法》的硬要求，不是可选项。业主 360 页必须完整实现。</div>
+</section><section id="s9"><h2><span class="no">9</span>交付物与接入</h2>
+<table><thead><tr><th>文件</th><th>放在项目哪里</th><th>作用</th></tr></thead><tbody>
+<tr><td class="num">tokens.css</td><td class="num">src/styles/tokens.css</td><td>设计变量；必须在 element-plus 样式之后引入</td></tr>
+<tr><td class="num">echarts-theme.js</td><td class="num">src/styles/echarts-theme.js</td><td>ECharts 主题 + heatColor / metricColor / alarmColor</td></tr>
+<tr><td class="num">mock/*.json</td><td class="num">src/mock/</td><td>演示数据；<code>import { houses } from '@/mock'</code></td></tr>
+<tr><td class="num">seed_dataset.py</td><td class="num">（仓库外）</td><td>数据生成器；改数据先改脚本再重跑，不要手改 JSON</td></tr>
+<tr><td class="num">本页</td><td class="num">文档 / Wiki</td><td>评审依据</td></tr>
+</tbody></table>
+<h3>接入步骤</h3>
+<pre>// main.ts
+import 'element-plus/dist/index.css'
+import '@/styles/tokens.css'        // 必须在 EP 之后，才能覆盖 --el-*
+
+// plugins/echarts.ts
+import * as echarts from 'echarts'
+import wyTheme from '@/styles/echarts-theme'
+echarts.registerTheme('wy', wyTheme)
+
+// 组件内
+const chart = echarts.init(elRef.value, 'wy')
+onBeforeUnmount(() => chart.dispose())</pre>
+<h3>建议的组件清单（先做这些，后面 180 页才快）</h3>
+<div class="chips">
+<span class="chip">StatusTag 状态标签</span><span class="chip">PageHeader 页头（标题+面包屑+操作）</span>
+<span class="chip">FilterBar 筛选栏</span><span class="chip">TableToolbar 工具栏</span>
+<span class="chip">DataTable 表格（封装分页/空态/行高/操作列）</span>
+<span class="chip">KpiCard 指标卡</span><span class="chip">ChartCard 图表卡（含空态与加载）</span>
+<span class="chip">RiskList 风险清单</span><span class="chip">FormDialog 表单弹窗</span>
+<span class="chip">DetailDrawer 详情抽屉</span><span class="chip">MoneyText 金额</span>
+<span class="chip">Desensitized 脱敏文本（点击验证后显示）</span>
+</div>
+<div class="note ok"><b>判断标准：</b>这 12 个组件做完，标准 CRUD 页面的成本会从「写 400 行」降到「写 30 行配置」。这一步省不掉。</div>
+</section></main>
+</div></div>
+</body></html>
